@@ -1,0 +1,699 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer components {
+    .admin-panel {
+        @apply rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm shadow-slate-950/[0.03];
+    }
+
+    .admin-surface {
+        @apply rounded-2xl border border-slate-200/80 bg-white shadow-sm shadow-slate-950/[0.03];
+    }
+
+    .admin-label {
+        @apply block text-sm font-semibold text-slate-700;
+    }
+
+    .admin-input {
+        @apply mt-2 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-100;
+    }
+
+    .admin-textarea {
+        @apply mt-2 block min-h-28 w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-100;
+    }
+
+    .admin-select {
+        @apply mt-2 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 pr-10 text-sm text-slate-900 shadow-sm outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-100;
+    }
+
+    .admin-file-input {
+        @apply mt-2 block w-full text-sm text-slate-600 file:mr-4 file:rounded-xl file:border-0 file:bg-slate-900 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800;
+    }
+
+    .admin-checkbox {
+        @apply h-4 w-4 rounded border-slate-300 text-amber-600 focus:ring-amber-500;
+    }
+
+    .admin-help {
+        @apply mt-2 text-sm leading-6 text-slate-500;
+    }
+
+    .admin-btn-primary {
+        @apply inline-flex items-center justify-center rounded-xl bg-amber-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700 focus:outline-none focus:ring-4 focus:ring-amber-200;
+    }
+
+    .admin-btn-secondary {
+        @apply inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200;
+    }
+
+    .admin-btn-danger {
+        @apply inline-flex items-center justify-center rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-rose-700 focus:outline-none focus:ring-4 focus:ring-rose-200;
+    }
+
+    .admin-alert-success {
+        @apply rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800;
+    }
+
+    .admin-alert-error {
+        @apply rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800;
+    }
+
+    .admin-skin {
+        font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+        background: #f4f6fb;
+    }
+
+    .admin-layout {
+        @apply min-h-screen;
+    }
+
+    .main-sidebar {
+        @apply fixed bottom-0 left-0 top-0 z-40 w-[250px] overflow-hidden border-r border-slate-200 bg-white shadow-[8px_0_30px_rgba(15,23,42,0.08)];
+        background: linear-gradient(180deg, #f8fafc 0%, #ffffff 70%);
+    }
+
+    .sticky-sidebar {
+        @apply h-screen overflow-y-auto;
+    }
+
+    .sidebar {
+        @apply px-2.5 pb-6 pt-4;
+    }
+
+    .user-panel {
+        @apply mx-2.5 mb-[18px] mt-3 rounded-2xl border border-slate-200 bg-white px-3.5 py-3 shadow-[0_12px_20px_rgba(15,23,42,0.08)];
+    }
+
+    .user-panel h3 {
+        @apply m-0 text-[1.2rem] font-semibold text-slate-900;
+    }
+
+    .text-decoration-none {
+        text-decoration: none;
+    }
+
+    .nav-sidebar,
+    .nav-treeview {
+        @apply m-0 list-none p-0;
+    }
+
+    .nav-header {
+        @apply mx-3 mb-1.5 mt-3.5 p-0 text-[0.7rem] font-semibold uppercase text-slate-400;
+        letter-spacing: 0.18em;
+    }
+
+    .nav-item {
+        @apply mx-2 my-1;
+    }
+
+    .nav-link {
+        @apply flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-slate-600 transition;
+        text-decoration: none;
+    }
+
+    .nav-link .nav-icon {
+        @apply m-0 inline-flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[10px] bg-slate-200 text-[0.95rem] text-slate-500;
+    }
+
+    .nav-link p {
+        @apply m-0 text-sm font-medium;
+    }
+
+    .nav-link:hover {
+        @apply bg-slate-100 text-slate-900;
+    }
+
+    .nav-link:hover .nav-icon {
+        @apply bg-blue-100 text-blue-600;
+    }
+
+    .nav-link.active {
+        @apply bg-blue-600 text-white shadow-[0_8px_18px_rgba(37,99,235,0.35)];
+    }
+
+    .nav-link.active .nav-icon {
+        @apply bg-white/20 text-white;
+    }
+
+    .nav-child {
+        @apply ml-4 py-2;
+    }
+
+    .sidebar-logout {
+        @apply mx-2 mt-5 border-t border-slate-200 pt-4;
+    }
+
+    .content-wrapper {
+        @apply min-h-screen bg-[#f4f6fb] pb-8 lg:ml-[250px];
+    }
+
+    .content-header {
+        @apply px-4 pb-0 pt-5;
+    }
+
+    .content {
+        @apply px-4 pt-4;
+    }
+
+    .container-fluid {
+        @apply mx-auto w-full;
+    }
+
+    .row {
+        @apply flex flex-wrap;
+    }
+
+    .col-sm-6 {
+        @apply w-full sm:w-1/2;
+    }
+
+    .col-md-10 {
+        @apply w-full md:w-10/12;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+
+    .page-title {
+        @apply mb-1 text-[1.8rem] font-semibold text-slate-900;
+    }
+
+    .text-muted {
+        @apply m-0 text-sm text-slate-500;
+    }
+
+    .card {
+        @apply overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_18px_32px_rgba(15,23,42,0.08)];
+    }
+
+    .card-header {
+        @apply flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-transparent px-5 py-3;
+    }
+
+    .card-title {
+        @apply m-0 text-[1.1rem] font-semibold text-slate-900;
+    }
+
+    .card-header.bg-primary .card-title {
+        @apply text-white;
+    }
+
+    .card-body {
+        @apply p-5;
+    }
+
+    .bg-primary {
+        background-color: #2563eb;
+        border-color: #2563eb;
+    }
+
+    .text-white {
+        color: #ffffff;
+    }
+
+    .btn {
+        @apply inline-flex items-center justify-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold leading-5 transition;
+        text-decoration: none;
+    }
+
+    .btn-sm {
+        @apply px-3 py-1 text-sm;
+    }
+
+    .btn-light {
+        @apply border-slate-100 bg-slate-50 text-slate-700 hover:bg-slate-100;
+    }
+
+    .btn-primary {
+        @apply border-blue-600 bg-blue-600 text-white hover:bg-blue-700;
+    }
+
+    .btn-danger {
+        @apply border-rose-600 bg-rose-600 text-white hover:bg-rose-700;
+    }
+
+    .btn-outline-primary {
+        @apply border-blue-600 bg-transparent text-blue-600 hover:bg-blue-50;
+    }
+
+    .btn-outline-info {
+        @apply border-cyan-500 bg-transparent text-cyan-500 hover:bg-cyan-50;
+    }
+
+    .btn-outline-warning {
+        @apply border-amber-500 bg-transparent text-amber-500 hover:bg-amber-50;
+    }
+
+    .btn-outline-danger {
+        @apply border-rose-500 bg-transparent text-rose-500 hover:bg-rose-50;
+    }
+
+    .text-primary {
+        @apply text-blue-600;
+    }
+
+    .font-weight-bold {
+        @apply font-semibold;
+    }
+
+    .form-group {
+        @apply mb-4;
+    }
+
+    .form-group label {
+        @apply mb-2 block text-sm font-medium text-slate-700;
+    }
+
+    .form-control {
+        @apply block h-[38px] w-full rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-900 shadow-none outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100;
+    }
+
+    select.form-control {
+        @apply pr-10;
+    }
+
+    .select2 {
+        width: 100%;
+    }
+
+    .custom-file {
+        @apply relative flex h-[38px] w-full items-stretch;
+    }
+
+    .custom-file-input {
+        @apply absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0;
+    }
+
+    .custom-file-label {
+        @apply flex h-[38px] w-full items-center rounded-xl border border-slate-200 bg-white px-3 pr-28 text-sm text-slate-500 shadow-none;
+    }
+
+    .custom-file-label::after {
+        @apply absolute bottom-0 right-0 top-0 flex items-center rounded-r-xl border-l border-slate-200 bg-slate-50 px-4 text-sm font-medium text-slate-700;
+        content: "Browse";
+    }
+
+    .bulk-action-row {
+        @apply mb-3 flex items-center gap-2;
+    }
+
+    .custom-select {
+        @apply rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100;
+    }
+
+    .custom-select-sm {
+        @apply h-[34px] py-1 text-sm;
+    }
+
+    .w-auto {
+        width: auto;
+    }
+
+    .table-responsive-md {
+        @apply w-full overflow-x-auto;
+    }
+
+    .table {
+        @apply mb-0 min-w-full border-collapse text-left;
+    }
+
+    .table thead th {
+        @apply border-y border-slate-200 bg-slate-50 px-3 py-3 align-middle text-[0.72rem] font-semibold uppercase text-slate-500;
+        letter-spacing: 0.12em;
+    }
+
+    .table td {
+        @apply border-t border-slate-200 px-3 py-3 align-middle text-sm text-slate-800;
+    }
+
+    .table-striped tbody tr:nth-child(odd) {
+        @apply bg-slate-50/45;
+    }
+
+    .table-hover tbody tr:hover {
+        @apply bg-blue-50/50;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .pages-admin-shell {
+        font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .pages-admin-hero {
+        @apply rounded-[30px] bg-slate-100/80 px-8 py-10;
+    }
+
+    .pages-admin-hero h1 {
+        @apply text-[3rem] font-extrabold tracking-tight text-slate-950;
+        line-height: 1.05;
+    }
+
+    .pages-admin-hero p {
+        @apply mt-3 text-[1.15rem] text-slate-500;
+    }
+
+    .pages-admin-card {
+        @apply overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm;
+    }
+
+    .pages-admin-card-header {
+        @apply flex flex-col gap-4 border-b border-slate-200 px-8 py-5 sm:flex-row sm:items-center sm:justify-between;
+    }
+
+    .pages-admin-card-header h2 {
+        @apply text-[2rem] font-extrabold tracking-tight text-slate-950;
+    }
+
+    .pages-add-button {
+        @apply inline-flex items-center justify-center rounded-full bg-slate-100 px-6 py-3 text-[1.1rem] font-extrabold text-blue-600 transition hover:bg-slate-200;
+    }
+
+    .pages-bulk-form {
+        @apply px-8 py-6;
+    }
+
+    .pages-bulk-toolbar {
+        @apply mb-6 flex flex-col gap-3 sm:flex-row sm:items-center;
+    }
+
+    .pages-bulk-select {
+        @apply h-12 min-w-44 rounded-xl border border-slate-300 bg-white px-4 text-[1rem] text-slate-700 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100;
+    }
+
+    .pages-bulk-apply {
+        @apply inline-flex h-12 items-center justify-center rounded-full bg-blue-600 px-7 text-[1.1rem] font-extrabold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100;
+    }
+
+    .pages-table {
+        @apply min-w-full border-separate border-spacing-0;
+    }
+
+    .pages-table thead th {
+        @apply border-y border-slate-200 bg-slate-100 px-5 py-5 text-left text-[1rem] font-extrabold uppercase tracking-[0.22em] text-slate-500;
+    }
+
+    .pages-table tbody td {
+        @apply border-b border-slate-200 px-5 py-5 align-middle text-[1.1rem] text-slate-900;
+    }
+
+    .pages-table-checkbox {
+        @apply w-16;
+    }
+
+    .pages-table-checkbox input {
+        @apply h-6 w-6 rounded border-slate-300 text-blue-600 focus:ring-blue-500;
+    }
+
+    .pages-table-image {
+        @apply h-36 w-56 rounded-none object-cover;
+    }
+
+    .pages-table-image-placeholder {
+        @apply flex items-center justify-center bg-slate-100 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400;
+    }
+
+    .pages-table-title {
+        @apply font-semibold text-slate-950;
+    }
+
+    .pages-actions {
+        @apply flex min-w-36 flex-col gap-3;
+    }
+
+    .pages-action {
+        @apply inline-flex items-center justify-center rounded-full border px-5 py-2 text-[1rem] font-bold transition;
+    }
+
+    .pages-action-preview {
+        @apply border-sky-500 text-sky-500 hover:bg-sky-50;
+    }
+
+    .pages-action-update {
+        @apply border-amber-500 text-amber-500 hover:bg-amber-50;
+    }
+
+    .pages-action-delete {
+        @apply border-rose-500 bg-transparent text-rose-500 hover:bg-rose-50;
+    }
+
+    .pages-empty-state {
+        @apply px-5 py-12 text-center text-sm text-slate-500;
+    }
+
+    .select-column {
+        width: 40px;
+    }
+
+    .number-column {
+        width: 60px;
+    }
+
+    .select-item,
+    [data-select-all] {
+        @apply h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500;
+    }
+
+    .default-img {
+        @apply block h-auto max-h-[105px] w-[150px] max-w-none object-cover;
+    }
+
+    .default-img-placeholder {
+        @apply flex h-[84px] items-center justify-center bg-slate-100 text-[0.7rem] font-semibold uppercase text-slate-400;
+        letter-spacing: 0.12em;
+    }
+
+    .pages-actions {
+        @apply inline-flex flex-wrap items-center justify-center gap-2;
+    }
+
+    .pages-actions form {
+        @apply inline-flex;
+    }
+
+    .pages-form-shell {
+        @apply overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm;
+    }
+
+    .pages-form-banner {
+        @apply bg-blue-600 px-8 py-6;
+    }
+
+    .pages-form-banner h1 {
+        @apply text-[2.2rem] font-extrabold tracking-tight text-slate-950;
+    }
+
+    .pages-form-body {
+        @apply space-y-7 px-8 py-8;
+    }
+
+    .pages-form-group {
+        @apply space-y-3;
+    }
+
+    .pages-form-label {
+        @apply block text-[1.2rem] font-extrabold text-slate-950;
+    }
+
+    .pages-form-input {
+        @apply block h-14 w-full rounded-[22px] border border-slate-200 bg-white px-5 text-[1rem] text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100;
+    }
+
+    .pages-form-select {
+        @apply pr-12;
+    }
+
+    .pages-form-file-input {
+        @apply block w-full text-[1rem] text-slate-600 file:mr-4 file:rounded-full file:border-0 file:bg-slate-900 file:px-5 file:py-3 file:text-[0.95rem] file:font-bold file:text-white hover:file:bg-slate-800;
+    }
+
+    .pages-image-preview {
+        @apply mt-4 grid max-w-sm gap-2;
+    }
+
+    .pages-image-preview img {
+        @apply h-36 w-full rounded-xl object-cover;
+    }
+
+    .pages-image-preview p {
+        @apply text-sm font-semibold text-slate-500;
+    }
+
+    .pages-gallery-upload-grid {
+        @apply mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3;
+    }
+
+    .pages-gallery-upload {
+        @apply rounded-2xl border border-slate-200 bg-slate-50 p-4;
+    }
+
+    .pages-gallery-upload > label:first-of-type {
+        @apply mb-3 block text-sm font-bold text-slate-800;
+    }
+
+    .pages-gallery-upload img,
+    .pages-gallery-placeholder {
+        @apply mb-3 h-36 w-full rounded-xl object-cover;
+    }
+
+    .pages-gallery-placeholder {
+        @apply flex items-center justify-center bg-white text-xs font-bold uppercase tracking-[0.16em] text-slate-400;
+    }
+
+    .pages-form-checkbox {
+        @apply mt-3 inline-flex items-center gap-2 text-sm font-medium text-slate-700;
+    }
+
+    .pages-form-checkbox input {
+        @apply h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500;
+    }
+
+    .pages-editor {
+        @apply overflow-hidden rounded-lg border border-slate-300 bg-white shadow-[0_1px_4px_rgba(0,0,0,0.1)];
+    }
+
+    .pages-editor-menubar {
+        @apply flex flex-wrap gap-1 border-b border-slate-200 bg-white px-3 py-2 text-[13px] text-slate-700;
+    }
+
+    .pages-editor-menu {
+        @apply relative;
+    }
+
+    .pages-editor-menu > button {
+        @apply inline-flex min-h-8 items-center justify-center rounded px-3 text-[13px] font-medium text-slate-700 transition hover:bg-slate-100 focus:bg-blue-100 focus:outline-none;
+    }
+
+    .pages-editor-menu.is-open > button {
+        @apply bg-blue-100 text-slate-950;
+    }
+
+    .pages-editor-menu-panel {
+        @apply invisible absolute left-0 top-full z-50 mt-1 hidden min-w-52 rounded-lg border border-slate-200 bg-white p-1.5 opacity-0 shadow-xl shadow-slate-950/10;
+    }
+
+    .pages-editor-menu.is-open .pages-editor-menu-panel {
+        @apply visible grid opacity-100;
+    }
+
+    .pages-editor-menu-panel button {
+        @apply flex w-full items-center rounded-md px-3 py-2 text-left text-[13px] font-medium text-slate-700 transition hover:bg-slate-100 focus:bg-slate-100 focus:outline-none;
+    }
+
+    .pages-editor-toolbar {
+        @apply flex flex-wrap items-center gap-1 border-b border-slate-200 bg-slate-50 px-2 py-1.5;
+    }
+
+    .pages-editor-toolbar button {
+        @apply inline-flex min-h-8 min-w-8 items-center justify-center rounded px-2 text-[13px] font-medium text-slate-700 transition hover:bg-slate-200;
+    }
+
+    .pages-editor-toolbar button:focus {
+        @apply bg-blue-100 outline-none;
+    }
+
+    .pages-editor-surface {
+        @apply min-h-[400px] px-3 py-2.5 text-sm text-slate-900 outline-none;
+        line-height: 1.6;
+    }
+
+    .pages-editor-surface:focus {
+        @apply ring-4 ring-blue-100;
+    }
+
+    .pages-editor-surface:empty::before {
+        content: "Start writing page content...";
+        color: rgb(148 163 184);
+    }
+
+    .pages-editor-surface img {
+        @apply my-4 max-w-full rounded-lg;
+    }
+
+    .pages-editor-surface table {
+        @apply my-4 w-full border-collapse;
+    }
+
+    .pages-editor-surface td,
+    .pages-editor-surface th {
+        @apply border border-slate-300 px-3 py-2;
+    }
+
+    .pages-editor.is-fullscreen {
+        @apply fixed inset-4 z-[100] flex flex-col rounded-xl;
+    }
+
+    .pages-editor.is-fullscreen .pages-editor-surface {
+        @apply flex-1 overflow-auto;
+    }
+
+    .pages-editor-textarea {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .pages-post-textarea {
+        height: auto;
+        min-height: 220px;
+        line-height: 1.6;
+        resize: vertical;
+    }
+
+    .pages-form-actions {
+        @apply flex flex-col gap-3 pt-2 sm:flex-row;
+    }
+
+    .pages-save-button {
+        @apply inline-flex h-12 items-center justify-center rounded-full bg-blue-600 px-7 text-[1rem] font-extrabold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100;
+    }
+
+    .pages-cancel-button {
+        @apply inline-flex h-12 items-center justify-center rounded-full border border-slate-300 px-7 text-[1rem] font-bold text-slate-700 transition hover:bg-slate-50;
+    }
+
+    @media (max-width: 768px) {
+        .pages-admin-hero {
+            @apply px-6 py-8;
+        }
+
+        .pages-admin-hero h1 {
+            @apply text-[2.3rem];
+        }
+
+        .pages-admin-card-header,
+        .pages-bulk-form,
+        .pages-form-banner,
+        .pages-form-body {
+            @apply px-5;
+        }
+
+        .pages-table thead th,
+        .pages-table tbody td {
+            @apply px-3 py-4 text-[0.95rem];
+        }
+
+        .pages-table-image {
+            @apply h-24 w-36;
+        }
+
+        .pages-form-banner h1 {
+            @apply text-[1.85rem];
+        }
+    }
+}
