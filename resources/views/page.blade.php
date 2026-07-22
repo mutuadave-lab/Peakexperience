@@ -237,6 +237,7 @@
 
                 <nav class="site-nav" aria-label="Primary">
                     <ul>
+                        <li><a href="{{ route('home') }}">Home</a></li>
                         <li class="nav-item--dropdown">
                             <a class="nav-link--caret" href="{{ route('home') }}#services">What We Do</a>
                             @if (count($navPages) > 0)
@@ -271,6 +272,7 @@
                 <div class="nav-panel" id="mobile-nav" data-nav-panel>
                     <nav aria-label="Mobile">
                         <ul>
+                            <li><a href="{{ route('home') }}">Home</a></li>
                             <li>
                                 <a href="{{ route('home') }}#services">What We Do</a>
                                 @if (count($navPages) > 0)
