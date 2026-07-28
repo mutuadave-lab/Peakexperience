@@ -68,4 +68,38 @@ class ContactInquiryTest extends TestCase
 
         Mail::assertNothingSent();
     }
+
+    public function test_services_enquiry_includes_budget_and_referral_and_returns_to_services(): void
+    {
+        Mail::fake();
+
+        $payload = [
+            'source' => 'services',
+            'first_name' => 'Amina',
+            'last_name' => 'Kamau',
+            'organization' => 'Acme Kenya',
+            'email' => 'amina@example.com',
+            'phone' => '+254711000000',
+            'date_of_event' => '2026-11-14',
+            'venue' => 'KICC',
+            'guest_count' => '600',
+            'event_type' => 'Conference',
+            'budget' => 'KES 4,500,000',
+            'referral_source' => 'Referral',
+            'additional_info' => 'Full production and delegate logistics required.',
+            'consent' => '1',
+        ];
+
+        $response = $this->from(route('our-services') . '#event-enquiry')
+            ->post(route('contact.submit'), $payload);
+
+        $response->assertRedirect(route('our-services') . '#event-enquiry');
+        $response->assertSessionHas('contact_status');
+
+        Mail::assertSent(ContactInquiryMail::class, function (ContactInquiryMail $mail) use ($payload) {
+            return $mail->hasTo('info@peakexperience.co.ke')
+                && $mail->enquiry['budget'] === $payload['budget']
+                && $mail->enquiry['referral_source'] === $payload['referral_source'];
+        });
+    }
 }

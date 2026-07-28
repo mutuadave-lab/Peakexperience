@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactInquiryMail;
+use App\Support\CaseStudyContent;
 use App\Support\HomepageContent;
 use App\Support\PageContent;
 use App\Support\PublicPageContent;
@@ -71,6 +72,7 @@ class HomeController extends Controller
         return view('our-services', [
             'logo' => $content['logo'],
             'pageContent' => PublicPageContent::services(),
+            'workImages' => $this->serviceWorkImages($content),
             'navPages' => PageContent::load(),
         ] + $this->contactData($content));
     }
@@ -102,8 +104,11 @@ class HomeController extends Controller
             'venue' => ['required', 'string', 'max:180'],
             'guest_count' => ['nullable', 'string', 'max:80'],
             'event_type' => ['required', 'string', 'max:120'],
+            'budget' => [$request->input('source') === 'services' ? 'required' : 'nullable', 'string', 'max:120'],
+            'referral_source' => ['nullable', 'string', 'max:120'],
             'additional_info' => ['nullable', 'string', 'max:3000'],
             'consent' => ['accepted'],
+            'source' => ['nullable', 'in:home,services'],
         ], [
             'first_name.required' => 'Please enter the client first name.',
             'last_name.required' => 'Please enter the client last name.',
@@ -114,11 +119,13 @@ class HomeController extends Controller
             'date_of_event.required' => 'Please enter the event date.',
             'venue.required' => 'Please enter the venue or location.',
             'event_type.required' => 'Please select the event type.',
+            'budget.required' => 'Please enter an estimated budget.',
             'consent.accepted' => 'Please confirm that we may contact you about this enquiry.',
         ], [
             'date_of_event' => 'event date',
             'guest_count' => 'number of guests',
             'event_type' => 'event type',
+            'referral_source' => 'how you heard about us',
             'additional_info' => 'additional information',
         ]);
 
@@ -133,10 +140,15 @@ class HomeController extends Controller
             'venue' => $validated['venue'],
             'guest_count' => trim((string) ($validated['guest_count'] ?? '')),
             'event_type' => $validated['event_type'],
+            'budget' => trim((string) ($validated['budget'] ?? '')),
+            'referral_source' => trim((string) ($validated['referral_source'] ?? '')),
             'additional_info' => trim((string) ($validated['additional_info'] ?? '')),
         ];
 
         $contactEmail = (string) data_get($this->contactData(), 'contactEmail', '');
+        $returnUrl = ($validated['source'] ?? '') === 'services'
+            ? route('our-services') . '#event-enquiry'
+            : url('/#contact');
 
         try {
             Mail::to($contactEmail)->send(new ContactInquiryMail($enquiry));
@@ -144,14 +156,48 @@ class HomeController extends Controller
             report($exception);
 
             return redirect()
-                ->to(url('/#contact'))
+                ->to($returnUrl)
                 ->withInput()
                 ->with('contact_error', 'We could not send your enquiry right now. Please call or email us directly.');
         }
 
         return redirect()
-            ->to(url('/#contact'))
+            ->to($returnUrl)
             ->with('contact_status', 'Thank you. Your enquiry has been sent to Peak Experience.');
+    }
+
+    /**
+     * Build a reusable image pool from work already uploaded through the admin.
+     *
+     * @return array<int, string>
+     */
+    private function serviceWorkImages(array $content): array
+    {
+        $images = [];
+
+        foreach (PageContent::posts() as $post) {
+            $images[] = (string) ($post['image'] ?? '');
+            array_push($images, ...(is_array($post['gallery_images'] ?? null) ? $post['gallery_images'] : []));
+        }
+
+        foreach (CaseStudyContent::published() as $caseStudy) {
+            $images[] = (string) ($caseStudy['image'] ?? '');
+        }
+
+        foreach ($content['what_we_do'] ?? [] as $service) {
+            $images[] = (string) ($service['image'] ?? '');
+        }
+
+        foreach ($content['section_images'] ?? [] as $sectionImage) {
+            if (is_array($sectionImage)) {
+                $images[] = (string) ($sectionImage['path'] ?? '');
+            }
+        }
+
+        return array_values(array_unique(array_filter(array_map(
+            fn ($image): string => trim((string) $image),
+            $images
+        ))));
     }
 
     public function asset(string $path): BinaryFileResponse

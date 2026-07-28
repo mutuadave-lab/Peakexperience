@@ -15,14 +15,13 @@
     );
     $hasLogo = filled($logoUrl);
     $pageContent = is_array($pageContent ?? null) ? $pageContent : [];
-    $serviceFallbacks = [
-        'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1100&q=80',
-        'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1100&q=80',
-        'https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=1100&q=80',
-        'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1100&q=80',
-        'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=1100&q=80',
-        'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1100&q=80',
-    ];
+    $workImages = array_values(array_filter(array_map(
+        fn ($image) => \App\Support\HomepageContent::assetUrl((string) $image),
+        is_array($workImages ?? null) ? $workImages : []
+    )));
+    $eventTypeOptions = ['Conference', 'Brand Launch', 'Exhibition', 'Awards', 'Hybrid / Virtual Event', 'Corporate Event', 'Other'];
+    $referralOptions = ['Google / Search', 'Social Media', 'Referral', 'Previous Event', 'Returning Client', 'Other'];
+    $ctaImage = count($workImages) > 0 ? $workImages[count($workImages) - 1] : '';
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -47,17 +46,51 @@
         .services-eyebrow{display:block;margin:0 0 34px;color:#7a7e81;font-size:18px;font-weight:500;letter-spacing:.02em;text-transform:uppercase}
         .services-hero h1{margin:0;color:#686264;font-size:clamp(52px,5.4vw,96px);font-weight:300;line-height:.92;letter-spacing:0;text-transform:uppercase}
         .services-hero p{max-width:980px;margin:34px 0 0;color:#686264;font-size:clamp(24px,1.85vw,34px);font-weight:300;line-height:1.32}
-        .services-grid-section{padding:0 0 clamp(78px,8vw,128px)}
-        .services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(46px,5vw,76px) clamp(34px,4vw,60px)}
-        .service-item{display:grid;gap:28px;align-content:start}
-        .service-item-media{overflow:hidden;border-radius:8px;aspect-ratio:1.5;background:#e9e9e9}
-        .service-item-media img{width:100%;height:100%;object-fit:cover}
-        .service-item h2{margin:0;color:#686264;font-size:clamp(28px,2.15vw,38px);font-weight:500;line-height:1.02;text-transform:uppercase}
-        .service-item p{margin:0;color:#686264;font-size:clamp(20px,1.45vw,27px);font-weight:300;line-height:1.38}
+        .services-grid-section{padding:0 0 clamp(90px,10vw,150px)}
+        .services-grid{display:grid;gap:clamp(72px,9vw,138px)}
+        .service-item{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(320px,.72fr);gap:clamp(40px,7vw,112px);align-items:center}
+        .service-item:nth-child(even){grid-template-columns:minmax(320px,.72fr) minmax(0,1.08fr)}
+        .service-item:nth-child(even) .service-item-media{order:2}
+        .service-item-media{overflow:hidden;border-radius:18px;aspect-ratio:1.35;background:linear-gradient(135deg,#10808f,#273243)}
+        .service-item-media img{display:block;width:100%;height:100%;object-fit:cover}
+        .service-item-copy{display:grid;align-content:center;gap:24px}
+        .service-item-index{color:#10808f;font-size:14px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
+        .service-item h2{margin:0;color:#686264;font-size:clamp(36px,3.65vw,66px);font-weight:400;line-height:.98;text-transform:uppercase}
+        .service-item p{margin:0;color:#686264;font-size:clamp(20px,1.45vw,27px);font-weight:300;line-height:1.45}
+        .services-cta{padding:0 clamp(16px,2.1vw,38px) clamp(80px,9vw,136px)}
+        .services-cta-card{position:relative;overflow:hidden;min-height:clamp(520px,63vw,760px);border-radius:22px;background:#17252c;color:#fff}
+        .services-cta-media,.services-cta-overlay{position:absolute;inset:0}
+        .services-cta-media img{width:100%;height:100%;object-fit:cover}
+        .services-cta-overlay{background:linear-gradient(90deg,rgba(7,19,24,.86) 0%,rgba(7,19,24,.62) 48%,rgba(7,19,24,.2) 100%)}
+        .services-cta-content{position:relative;z-index:1;display:flex;min-height:inherit;flex-direction:column;justify-content:center;width:min(1180px,calc(100% - 96px));margin:0 auto;padding:70px 0}
+        .services-cta-content h2{max-width:850px;margin:0;color:#fff;font-size:clamp(48px,5.1vw,86px);font-weight:300;line-height:.98;text-transform:uppercase}
+        .services-cta-content p{max-width:650px;margin:34px 0;color:#fff;font-size:clamp(22px,1.8vw,31px);font-weight:300;line-height:1.42}
+        .services-cta-button{display:inline-flex;align-items:center;justify-content:space-between;width:272px;min-height:86px;border-radius:10px;padding:0 34px;background:#fff;color:#747678;text-decoration:none;text-transform:uppercase;font-size:16px;font-weight:600;letter-spacing:.03em}
+        .services-cta-button::after{content:"\2192";font-size:28px;font-weight:300}
+        .services-cta-button:hover,.services-cta-button:focus-visible{background:#10808f;color:#fff}
+        .enquiry-section{padding:clamp(78px,9vw,132px) 24px;background:#edf0f1}
+        .enquiry-card{width:min(1180px,100%);margin:0 auto;border:1px solid #d9dddf;border-radius:22px;padding:clamp(28px,5vw,68px);background:#fff;box-shadow:0 24px 70px rgba(30,38,44,.08)}
+        .enquiry-header{display:flex;justify-content:space-between;gap:32px;margin-bottom:44px}
+        .enquiry-header h2{margin:0 0 12px;color:#5f595b;font-size:clamp(40px,4vw,64px);font-weight:400;line-height:1}
+        .enquiry-header p{margin:0;color:#6a6365;font-size:20px;line-height:1.5}
+        .enquiry-header a{color:inherit}
+        .form-alert{margin:0 0 28px;border-radius:8px;padding:16px 18px;font-size:16px}
+        .form-alert--success{background:#e4f4ee;color:#175c48}.form-alert--error{background:#fff0ed;color:#8a2f24}
+        .enquiry-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 24px}
+        .enquiry-field{display:grid;gap:8px}.enquiry-field--full{grid-column:1/-1}
+        .enquiry-field label{color:#767a7d;font-size:15px;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
+        .enquiry-field input,.enquiry-field select,.enquiry-field textarea{width:100%;border:1px solid #d8dcde;border-radius:10px;padding:0 18px;background:#fff;color:#4f4a4c;font:18px/1.3 inherit}
+        .enquiry-field input,.enquiry-field select{height:58px}.enquiry-field textarea{min-height:142px;padding-top:16px;resize:vertical}
+        .enquiry-field input:focus,.enquiry-field select:focus,.enquiry-field textarea:focus{border-color:#10808f;outline:3px solid rgba(16,128,143,.14)}
+        .enquiry-field .is-invalid{border-color:#b84f42}.field-error{margin:0;color:#a33d32;font-size:14px}
+        .enquiry-consent{margin:26px 0}.enquiry-consent label{display:flex;align-items:flex-start;gap:13px;color:#686264;font-size:17px;line-height:1.5}
+        .enquiry-consent input{flex:0 0 auto;width:22px;height:22px;margin-top:2px;accent-color:#10808f}
+        .enquiry-submit{min-width:226px;min-height:66px;border:0;border-radius:9px;padding:0 30px;background:#10808f;color:#fff;text-transform:uppercase;font:600 15px/1 inherit;letter-spacing:.05em;cursor:pointer}
+        .enquiry-submit:hover,.enquiry-submit:focus-visible{background:#273243}
         .services-page .se-footer-brand{background:#10808f;color:#fff}
         .site-nav a[aria-current="page"]{background:rgba(32,38,51,.06);border-radius:8px}
-        @media(max-width:980px){.services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.services-hero .wrap{width:min(1180px,calc(100% - 48px))}}
-        @media(max-width:680px){.services-hero{padding:64px 0 58px}.services-hero .wrap{width:min(1180px,calc(100% - 32px))}.services-hero h1{font-size:48px}.services-hero p{font-size:24px}.services-grid{grid-template-columns:1fr}.service-item h2{font-size:32px}.service-item p{font-size:23px}}
+        @media(max-width:980px){.service-item,.service-item:nth-child(even){grid-template-columns:1fr;gap:34px}.service-item:nth-child(even) .service-item-media{order:0}.services-hero .wrap{width:min(1180px,calc(100% - 48px))}.services-cta-content{width:calc(100% - 64px)}}
+        @media(max-width:680px){.services-hero{padding:64px 0 58px}.services-hero .wrap{width:min(1180px,calc(100% - 32px))}.services-hero h1{font-size:48px}.services-hero p{font-size:24px}.service-item h2{font-size:36px}.service-item p{font-size:21px}.service-item-media{border-radius:12px;aspect-ratio:1.15}.services-cta{padding-left:12px;padding-right:12px}.services-cta-card{min-height:600px;border-radius:14px}.services-cta-content{width:calc(100% - 40px);padding:54px 0}.services-cta-content h2{font-size:42px}.services-cta-button{width:100%}.enquiry-section{padding:58px 14px}.enquiry-card{border-radius:14px;padding:28px 20px}.enquiry-form-grid{grid-template-columns:1fr}.enquiry-field--full{grid-column:auto}.enquiry-header{display:block}.enquiry-header h2{font-size:40px}}
     </style>
 </head>
 <body id="top">
@@ -142,19 +175,162 @@
                         @foreach ($pageContent['cards'] as $index => $card)
                             @php
                                 $imageUrl = \App\Support\HomepageContent::assetUrl((string) ($card['image'] ?? ''));
-                                if ($imageUrl === '') {
-                                    $imageUrl = $serviceFallbacks[$index % count($serviceFallbacks)];
+                                if ($imageUrl === '' && count($workImages) > 0) {
+                                    $imageUrl = $workImages[$index % count($workImages)];
                                 }
                             @endphp
                             <article class="service-item">
                                 <figure class="service-item-media">
-                                    <img src="{{ $imageUrl }}" alt="{{ $card['image_alt'] !== '' ? $card['image_alt'] : $card['title'] }}">
+                                    @if ($imageUrl !== '')
+                                        <img src="{{ $imageUrl }}" alt="{{ $card['image_alt'] !== '' ? $card['image_alt'] : $card['title'] }}">
+                                    @endif
                                 </figure>
-                                <h2>{{ $card['title'] }}</h2>
-                                <p>{{ $card['description'] }}</p>
+                                <div class="service-item-copy">
+                                    <span class="service-item-index">Service {{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}</span>
+                                    <h2>{{ $card['title'] }}</h2>
+                                    <p>{{ $card['description'] }}</p>
+                                </div>
                             </article>
                         @endforeach
                     </div>
+                </div>
+            </section>
+
+            <section class="services-cta" aria-labelledby="services-cta-title">
+                <div class="services-cta-card">
+                    @if ($ctaImage !== '')
+                        <div class="services-cta-media" aria-hidden="true">
+                            <img src="{{ $ctaImage }}" alt="">
+                        </div>
+                    @endif
+                    <div class="services-cta-overlay" aria-hidden="true"></div>
+                    <div class="services-cta-content">
+                        <h2 id="services-cta-title">Explore Our Services</h2>
+                        <p>Tell us what you are planning and where you need support. We will shape the production, design, logistics, streaming, and branding around your event.</p>
+                        <a class="services-cta-button" href="#event-enquiry">Enquire Now</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="enquiry-section" id="event-enquiry" aria-labelledby="event-enquiry-title">
+                <div class="enquiry-card">
+                    <header class="enquiry-header">
+                        <div>
+                            <h2 id="event-enquiry-title">Event Enquiry</h2>
+                            <p>Alternatively, email <a href="mailto:info@peakexperience.co.ke">info@peakexperience.co.ke</a>.</p>
+                        </div>
+                    </header>
+
+                    @if (session('contact_status'))
+                        <div class="form-alert form-alert--success">{{ session('contact_status') }}</div>
+                    @endif
+
+                    @if (session('contact_error'))
+                        <div class="form-alert form-alert--error">{{ session('contact_error') }}</div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="form-alert form-alert--error">Please review the highlighted fields and submit the enquiry again.</div>
+                    @endif
+
+                    <form method="POST" action="{{ route('contact.submit') }}" novalidate>
+                        @csrf
+                        <input type="hidden" name="source" value="services">
+
+                        <div class="enquiry-form-grid">
+                            <div class="enquiry-field">
+                                <label for="services-first-name">First Name *</label>
+                                <input id="services-first-name" class="@error('first_name') is-invalid @enderror" type="text" name="first_name" value="{{ old('first_name') }}" autocomplete="given-name" required>
+                                @error('first_name')<p class="field-error">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div class="enquiry-field">
+                                <label for="services-last-name">Last Name *</label>
+                                <input id="services-last-name" class="@error('last_name') is-invalid @enderror" type="text" name="last_name" value="{{ old('last_name') }}" autocomplete="family-name" required>
+                                @error('last_name')<p class="field-error">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div class="enquiry-field">
+                                <label for="services-company">Company *</label>
+                                <input id="services-company" class="@error('organization') is-invalid @enderror" type="text" name="organization" value="{{ old('organization') }}" autocomplete="organization" required>
+                                @error('organization')<p class="field-error">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div class="enquiry-field">
+                                <label for="services-phone">Phone Number *</label>
+                                <input id="services-phone" class="@error('phone') is-invalid @enderror" type="tel" name="phone" value="{{ old('phone') }}" autocomplete="tel" required>
+                                @error('phone')<p class="field-error">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div class="enquiry-field">
+                                <label for="services-email">Email *</label>
+                                <input id="services-email" class="@error('email') is-invalid @enderror" type="email" name="email" value="{{ old('email') }}" autocomplete="email" required>
+                                @error('email')<p class="field-error">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div class="enquiry-field">
+                                <label for="services-date">Date of Event *</label>
+                                <input id="services-date" class="@error('date_of_event') is-invalid @enderror" type="date" name="date_of_event" value="{{ old('date_of_event') }}" required>
+                                @error('date_of_event')<p class="field-error">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div class="enquiry-field">
+                                <label for="services-guests">Number of Guests</label>
+                                <input id="services-guests" class="@error('guest_count') is-invalid @enderror" type="text" name="guest_count" value="{{ old('guest_count') }}" inputmode="numeric">
+                                @error('guest_count')<p class="field-error">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div class="enquiry-field">
+                                <label for="services-event-type">Type of Event *</label>
+                                <select id="services-event-type" class="@error('event_type') is-invalid @enderror" name="event_type" required>
+                                    <option value="">Please select</option>
+                                    @foreach ($eventTypeOptions as $option)
+                                        <option value="{{ $option }}" @selected(old('event_type') === $option)>{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                                @error('event_type')<p class="field-error">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div class="enquiry-field">
+                                <label for="services-budget">Budget (KES) *</label>
+                                <input id="services-budget" class="@error('budget') is-invalid @enderror" type="text" name="budget" value="{{ old('budget') }}" inputmode="decimal" required>
+                                @error('budget')<p class="field-error">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div class="enquiry-field">
+                                <label for="services-referral">How Did You Hear About Us?</label>
+                                <select id="services-referral" class="@error('referral_source') is-invalid @enderror" name="referral_source">
+                                    <option value="">Please select</option>
+                                    @foreach ($referralOptions as $option)
+                                        <option value="{{ $option }}" @selected(old('referral_source') === $option)>{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                                @error('referral_source')<p class="field-error">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div class="enquiry-field enquiry-field--full">
+                                <label for="services-venue">Venue / Location *</label>
+                                <input id="services-venue" class="@error('venue') is-invalid @enderror" type="text" name="venue" value="{{ old('venue') }}" required>
+                                @error('venue')<p class="field-error">{{ $message }}</p>@enderror
+                            </div>
+
+                            <div class="enquiry-field enquiry-field--full">
+                                <label for="services-additional-info">Additional Info</label>
+                                <textarea id="services-additional-info" class="@error('additional_info') is-invalid @enderror" name="additional_info">{{ old('additional_info') }}</textarea>
+                                @error('additional_info')<p class="field-error">{{ $message }}</p>@enderror
+                            </div>
+                        </div>
+
+                        <div class="enquiry-consent">
+                            <label>
+                                <input type="checkbox" name="consent" value="1" @checked(old('consent')) required>
+                                <span>I agree to be contacted by Peak Experience about this enquiry and understand that my details will be used to prepare a response.</span>
+                            </label>
+                            @error('consent')<p class="field-error">{{ $message }}</p>@enderror
+                        </div>
+
+                        <button class="enquiry-submit" type="submit">Submit</button>
+                    </form>
                 </div>
             </section>
         </main>
@@ -231,5 +407,12 @@
     @endif
 
     <script src="{{ asset('story-home.js') }}" defer></script>
+    @if ($errors->any() || session('contact_status') || session('contact_error'))
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('event-enquiry')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        </script>
+    @endif
 </body>
 </html>
