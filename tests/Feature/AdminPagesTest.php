@@ -415,6 +415,14 @@ class AdminPagesTest extends TestCase
         $response->assertSee('Delivery');
         $response->assertSee('We created a bold people-first event.');
         $response->assertSee('https://example.com/gallery-one.jpg', false);
+        $response->assertSee('aria-label="TikTok"', false);
+        $response->assertSee('aria-label="Instagram"', false);
+        $response->assertSee('aria-label="LinkedIn"', false);
+        $response->assertSee('class="post-share__icon"', false);
+        $response->assertSee('class="post-share__icon post-share__icon--instagram"', false);
+        $response->assertDontSee('aria-label="TikTok">T</a>', false);
+        $response->assertDontSee('aria-label="Instagram">I</a>', false);
+        $response->assertDontSee('aria-label="LinkedIn">L</a>', false);
     }
 
     public function test_public_navigation_lists_saved_pages_under_what_we_do(): void

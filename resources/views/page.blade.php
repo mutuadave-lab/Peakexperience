@@ -172,7 +172,11 @@
         .post-hero-intro__title{max-width:1240px;margin:0 auto;color:#5d5759;font-size:clamp(54px,7.1vw,122px);line-height:1.03;font-weight:300;text-transform:uppercase;letter-spacing:0}
         .post-hero-intro__summary{max-width:760px;margin:42px auto 0;color:#6a6365;font-size:clamp(25px,2.1vw,36px);line-height:1.32;font-weight:300}
         .post-share{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:36px;color:#5f595b;font-size:19px;line-height:24px}
-        .post-share a{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;color:#5f595b;text-decoration:none}
+        .post-share a{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;color:#5f595b;text-decoration:none;transition:color .2s ease,opacity .2s ease}
+        .post-share a:hover,.post-share a:focus-visible{color:#333;opacity:.78}
+        .post-share a:focus-visible{outline:2px solid currentColor;outline-offset:3px;border-radius:3px}
+        .post-share__icon{display:block;width:24px;height:24px;fill:currentColor}
+        .post-share__icon--instagram{fill:none;stroke:currentColor;stroke-width:1.9}
         .post-hero-image{padding:0 var(--page-image-gutter) 78px;background:#fff}
         .post-hero-image img{width:100%;max-height:760px;object-fit:cover;border-radius:24px}
         .post-section{padding:90px clamp(24px,7.5vw,140px);background:#fff}
@@ -316,7 +320,30 @@
                 <div class="post-share" aria-label="Share links">
                     <span>Share:</span>
                     @foreach ($socialLinks as $socialLink)
-                        <a href="{{ $socialLink['url'] }}" target="_blank" rel="noreferrer" aria-label="{{ $socialLink['label'] }}">{{ strtoupper(substr($socialLink['label'], 0, 1)) }}</a>
+                        @php($socialPlatform = strtolower(trim((string) $socialLink['label'])))
+                        <a href="{{ $socialLink['url'] }}" target="_blank" rel="noreferrer" aria-label="{{ $socialLink['label'] }}">
+                            @switch($socialPlatform)
+                                @case('tiktok')
+                                    <svg class="post-share__icon" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                                        <path d="M14.1 3v10.65a4.55 4.55 0 1 1-3.7-4.47v3.13a1.55 1.55 0 1 0 .75 1.34V3h2.95c.35 2.1 1.58 3.37 3.9 3.82v3.03a7.12 7.12 0 0 1-3.9-1.55V3Z"/>
+                                    </svg>
+                                    @break
+                                @case('instagram')
+                                    <svg class="post-share__icon post-share__icon--instagram" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                                        <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="5"/>
+                                        <circle cx="12" cy="12" r="4.15"/>
+                                        <circle cx="17.45" cy="6.75" r=".85" fill="currentColor" stroke="none"/>
+                                    </svg>
+                                    @break
+                                @case('linkedin')
+                                    <svg class="post-share__icon" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                                        <path d="M19.35 3H4.65A1.65 1.65 0 0 0 3 4.65v14.7A1.65 1.65 0 0 0 4.65 21h14.7A1.65 1.65 0 0 0 21 19.35V4.65A1.65 1.65 0 0 0 19.35 3ZM8.28 18H5.55V9.2h2.73V18ZM6.92 8a1.58 1.58 0 1 1 0-3.16A1.58 1.58 0 0 1 6.92 8ZM18.45 18h-2.72v-4.28c0-1.02-.02-2.33-1.42-2.33-1.42 0-1.64 1.11-1.64 2.25V18H9.95V9.2h2.61v1.2h.04a2.86 2.86 0 0 1 2.58-1.42c2.76 0 3.27 1.82 3.27 4.18V18Z"/>
+                                    </svg>
+                                    @break
+                                @default
+                                    <span aria-hidden="true">{{ strtoupper(substr($socialLink['label'], 0, 1)) }}</span>
+                            @endswitch
+                        </a>
                     @endforeach
                 </div>
             </section>
