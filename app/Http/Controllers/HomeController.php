@@ -174,10 +174,11 @@ class HomeController extends Controller
     private function serviceWorkImages(array $content): array
     {
         $images = [];
+        $postGalleries = [];
 
         foreach (PageContent::posts() as $post) {
             $images[] = (string) ($post['image'] ?? '');
-            array_push($images, ...(is_array($post['gallery_images'] ?? null) ? $post['gallery_images'] : []));
+            $postGalleries[] = is_array($post['gallery_images'] ?? null) ? $post['gallery_images'] : [];
         }
 
         foreach (CaseStudyContent::published() as $caseStudy) {
@@ -191,6 +192,15 @@ class HomeController extends Controller
         foreach ($content['section_images'] ?? [] as $sectionImage) {
             if (is_array($sectionImage)) {
                 $images[] = (string) ($sectionImage['path'] ?? '');
+            }
+        }
+
+        $maxGalleryImages = max(array_map('count', $postGalleries) ?: [0]);
+        for ($imageIndex = 0; $imageIndex < $maxGalleryImages; $imageIndex++) {
+            foreach ($postGalleries as $gallery) {
+                if (isset($gallery[$imageIndex])) {
+                    $images[] = (string) $gallery[$imageIndex];
+                }
             }
         }
 

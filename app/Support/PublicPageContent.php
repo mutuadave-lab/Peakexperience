@@ -20,6 +20,15 @@ class PublicPageContent
     public static function services(): array
     {
         $content = self::setting('public_services_page', self::servicesDefaults());
+        $defaults = self::servicesDefaults();
+        $legacyDescription = 'We provide seamless, end-to-end event planning, handling every detail from concept to completion. From venue sourcing and event design to AV production, logistics, and virtual streaming, we ensure flawless execution.';
+
+        if ($content['eyebrow'] === 'Tools to create any experience') {
+            $content['eyebrow'] = $defaults['eyebrow'];
+        }
+        if ($content['description'] === $legacyDescription) {
+            $content['description'] = $defaults['description'];
+        }
         $content['cards'] = self::curatedServiceCards($content['cards'] ?? []);
 
         return $content;
@@ -124,9 +133,9 @@ class PublicPageContent
     private static function servicesDefaults(): array
     {
         return [
-            'eyebrow' => 'Tools to create any experience',
+            'eyebrow' => 'End-to-end event production in Kenya',
             'title' => 'Our Services',
-            'description' => 'We provide seamless, end-to-end event planning, handling every detail from concept to completion. From venue sourcing and event design to AV production, logistics, and virtual streaming, we ensure flawless execution.',
+            'description' => 'Peak Experience delivers professional event production services in Nairobi and across Kenya. From AV production, set construction, event design, delegate logistics, live streaming, and event branding to simultaneous interpretation, our team coordinates every technical and creative detail for conferences, corporate events, exhibitions, launches, and hybrid experiences.',
             'cards' => [
                 [
                     'title' => 'AV Production & Set Build',
@@ -157,6 +166,12 @@ class PublicPageContent
                     'description' => 'From stage graphics and digital screens to wayfinding, print, and branded installations, every surface reinforces one clear identity.',
                     'image' => '',
                     'image_alt' => 'Branded stage and event environment',
+                ],
+                [
+                    'title' => 'Translation Services',
+                    'description' => 'We hire out simultaneous interpretation equipment and coordinate professional translators so multilingual audiences can follow conferences, meetings, and live events clearly in real time.',
+                    'image' => '',
+                    'image_alt' => 'Simultaneous interpretation equipment and professional conference translators',
                 ],
             ],
         ];

@@ -22,6 +22,30 @@
     $eventTypeOptions = ['Conference', 'Brand Launch', 'Exhibition', 'Awards', 'Hybrid / Virtual Event', 'Corporate Event', 'Other'];
     $referralOptions = ['Google / Search', 'Social Media', 'Referral', 'Previous Event', 'Returning Client', 'Other'];
     $ctaImage = count($workImages) > 0 ? $workImages[count($workImages) - 1] : '';
+    $seoTitle = 'Event Production Services in Kenya | Peak Experience';
+    $seoDescription = 'Professional event production services in Nairobi and across Kenya, including AV production, set build, event design, delegate logistics, streaming, branding, and simultaneous interpretation.';
+    $serviceSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'ItemList',
+        'name' => 'Peak Experience Event Production Services',
+        'description' => $seoDescription,
+        'url' => route('our-services'),
+        'itemListElement' => array_values(array_map(
+            fn (array $card, int $index) => [
+                '@type' => 'ListItem',
+                'position' => $index + 1,
+                'item' => [
+                    '@type' => 'Service',
+                    'name' => $card['title'],
+                    'description' => $card['description'],
+                    'areaServed' => ['@type' => 'Country', 'name' => 'Kenya'],
+                    'provider' => ['@type' => 'Organization', 'name' => 'Peak Experience'],
+                ],
+            ],
+            $pageContent['cards'] ?? [],
+            array_keys($pageContent['cards'] ?? [])
+        )),
+    ];
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -29,8 +53,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @include('partials.page-transition-head')
-    <title>{{ $pageContent['title'] }} | Peak Experience</title>
-    <meta name="description" content="{{ $pageContent['description'] }}">
+    <title>{{ $seoTitle }}</title>
+    <meta name="description" content="{{ $seoDescription }}">
+    <link rel="canonical" href="{{ route('our-services') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:url" content="{{ route('our-services') }}">
+    @if (count($workImages) > 0)
+        <meta property="og:image" content="{{ $workImages[0] }}">
+    @endif
+    <script type="application/ld+json">{!! json_encode($serviceSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
     <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,16 +80,13 @@
         .services-hero h1{margin:0;color:#686264;font-size:clamp(52px,5.4vw,96px);font-weight:300;line-height:.92;letter-spacing:0;text-transform:uppercase}
         .services-hero p{max-width:980px;margin:34px 0 0;color:#686264;font-size:clamp(24px,1.85vw,34px);font-weight:300;line-height:1.32}
         .services-grid-section{padding:0 0 clamp(90px,10vw,150px)}
-        .services-grid{display:grid;gap:clamp(72px,9vw,138px)}
-        .service-item{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(320px,.72fr);gap:clamp(40px,7vw,112px);align-items:center}
-        .service-item:nth-child(even){grid-template-columns:minmax(320px,.72fr) minmax(0,1.08fr)}
-        .service-item:nth-child(even) .service-item-media{order:2}
-        .service-item-media{overflow:hidden;border-radius:18px;aspect-ratio:1.35;background:linear-gradient(135deg,#10808f,#273243)}
+        .services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(64px,6vw,92px) clamp(26px,2.7vw,44px)}
+        .service-item{display:grid;grid-template-rows:auto 1fr;gap:28px;align-content:start}
+        .service-item-media{overflow:hidden;border-radius:9px;aspect-ratio:1.5;background:linear-gradient(135deg,#10808f,#273243)}
         .service-item-media img{display:block;width:100%;height:100%;object-fit:cover}
-        .service-item-copy{display:grid;align-content:center;gap:24px}
-        .service-item-index{color:#10808f;font-size:14px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
-        .service-item h2{margin:0;color:#686264;font-size:clamp(36px,3.65vw,66px);font-weight:400;line-height:.98;text-transform:uppercase}
-        .service-item p{margin:0;color:#686264;font-size:clamp(20px,1.45vw,27px);font-weight:300;line-height:1.45}
+        .service-item-copy{display:grid;align-content:start;gap:18px}
+        .service-item h2{margin:0;color:#686264;font-size:clamp(25px,2.1vw,36px);font-weight:500;line-height:1.05;text-transform:uppercase}
+        .service-item p{margin:0;color:#686264;font-size:clamp(18px,1.25vw,23px);font-weight:300;line-height:1.48}
         .services-cta{padding:0 clamp(16px,2.1vw,38px) clamp(80px,9vw,136px)}
         .services-cta-card{position:relative;overflow:hidden;min-height:clamp(520px,63vw,760px);border-radius:22px;background:#17252c;color:#fff}
         .services-cta-media,.services-cta-overlay{position:absolute;inset:0}
@@ -89,8 +119,8 @@
         .enquiry-submit:hover,.enquiry-submit:focus-visible{background:#273243}
         .services-page .se-footer-brand{background:#10808f;color:#fff}
         .site-nav a[aria-current="page"]{background:rgba(32,38,51,.06);border-radius:8px}
-        @media(max-width:980px){.service-item,.service-item:nth-child(even){grid-template-columns:1fr;gap:34px}.service-item:nth-child(even) .service-item-media{order:0}.services-hero .wrap{width:min(1180px,calc(100% - 48px))}.services-cta-content{width:calc(100% - 64px)}}
-        @media(max-width:680px){.services-hero{padding:64px 0 58px}.services-hero .wrap{width:min(1180px,calc(100% - 32px))}.services-hero h1{font-size:48px}.services-hero p{font-size:24px}.service-item h2{font-size:36px}.service-item p{font-size:21px}.service-item-media{border-radius:12px;aspect-ratio:1.15}.services-cta{padding-left:12px;padding-right:12px}.services-cta-card{min-height:600px;border-radius:14px}.services-cta-content{width:calc(100% - 40px);padding:54px 0}.services-cta-content h2{font-size:42px}.services-cta-button{width:100%}.enquiry-section{padding:58px 14px}.enquiry-card{border-radius:14px;padding:28px 20px}.enquiry-form-grid{grid-template-columns:1fr}.enquiry-field--full{grid-column:auto}.enquiry-header{display:block}.enquiry-header h2{font-size:40px}}
+        @media(max-width:980px){.services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.services-hero .wrap{width:min(1180px,calc(100% - 48px))}.services-cta-content{width:calc(100% - 64px)}}
+        @media(max-width:680px){.services-hero{padding:64px 0 58px}.services-hero .wrap{width:min(1180px,calc(100% - 32px))}.services-hero h1{font-size:48px}.services-hero p{font-size:22px}.services-grid{grid-template-columns:1fr;gap:58px}.service-item h2{font-size:32px}.service-item p{font-size:20px}.service-item-media{border-radius:9px;aspect-ratio:1.35}.services-cta{padding-left:12px;padding-right:12px}.services-cta-card{min-height:600px;border-radius:14px}.services-cta-content{width:calc(100% - 40px);padding:54px 0}.services-cta-content h2{font-size:42px}.services-cta-button{width:100%}.enquiry-section{padding:58px 14px}.enquiry-card{border-radius:14px;padding:28px 20px}.enquiry-form-grid{grid-template-columns:1fr}.enquiry-field--full{grid-column:auto}.enquiry-header{display:block}.enquiry-header h2{font-size:40px}}
     </style>
 </head>
 <body id="top">
@@ -186,7 +216,6 @@
                                     @endif
                                 </figure>
                                 <div class="service-item-copy">
-                                    <span class="service-item-index">Service {{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}</span>
                                     <h2>{{ $card['title'] }}</h2>
                                     <p>{{ $card['description'] }}</p>
                                 </div>
