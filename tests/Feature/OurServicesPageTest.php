@@ -62,6 +62,8 @@ class OurServicesPageTest extends TestCase
         $response->assertSee('Delegate Logistics');
         $response->assertSee('Streaming &amp; Virtual Events', false);
         $response->assertSee('Event Branding');
+        $response->assertSee('Translation Services');
+        $response->assertSee('simultaneous interpretation equipment');
         $response->assertDontSee('Content Development');
         $response->assertDontSee('Venue Sourcing');
         $response->assertDontSee('Technical Production');
@@ -69,6 +71,9 @@ class OurServicesPageTest extends TestCase
         $response->assertSee('homepage/pages/gallery/work-four.jpg', false);
         $response->assertSee('id="event-enquiry"', false);
         $response->assertSee('action="' . route('contact.submit') . '"', false);
-        $this->assertSame(5, substr_count($response->getContent(), 'class="service-item"'));
+        $response->assertSee('<title>Event Production Services in Kenya | Peak Experience</title>', false);
+        $response->assertSee('<link rel="canonical" href="' . route('our-services') . '">', false);
+        $response->assertSee('"@type":"ItemList"', false);
+        $this->assertSame(6, substr_count($response->getContent(), 'class="service-item"'));
     }
 }
