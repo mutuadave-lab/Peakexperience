@@ -42,6 +42,14 @@
                 <td style="padding:10px 0; border-top:1px solid #ece6dc; font-weight:700;">Type of Event</td>
                 <td style="padding:10px 0; border-top:1px solid #ece6dc;">{{ $enquiry['event_type'] }}</td>
             </tr>
+            <tr>
+                <td style="padding:10px 0; border-top:1px solid #ece6dc; font-weight:700;">Estimated Budget</td>
+                <td style="padding:10px 0; border-top:1px solid #ece6dc;">{{ $enquiry['budget'] !== '' ? $enquiry['budget'] : 'Not provided' }}</td>
+            </tr>
+            <tr>
+                <td style="padding:10px 0; border-top:1px solid #ece6dc; font-weight:700;">How They Heard About Us</td>
+                <td style="padding:10px 0; border-top:1px solid #ece6dc;">{{ $enquiry['referral_source'] !== '' ? $enquiry['referral_source'] : 'Not provided' }}</td>
+            </tr>
         </table>
 
         <div style="margin-top:24px; padding-top:20px; border-top:1px solid #ece6dc;">

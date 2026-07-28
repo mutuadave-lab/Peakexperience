@@ -19,21 +19,20 @@ class PublicPageContent
 
     public static function services(): array
     {
-        return self::setting('public_services_page', self::servicesDefaults());
+        $content = self::setting('public_services_page', self::servicesDefaults());
+        $content['cards'] = self::curatedServiceCards($content['cards'] ?? []);
+
+        return $content;
     }
 
     public static function saveServices(array $content): void
     {
         $defaults = self::servicesDefaults();
         $normalized = self::normalizePage($content, $defaults);
-        $normalized['cards'] = array_values(array_map(
+        $normalized['cards'] = self::curatedServiceCards(array_values(array_map(
             fn (array $card): array => self::normalizeCard($card),
             array_filter($content['cards'] ?? [], 'is_array')
-        ));
-
-        if ($normalized['cards'] === []) {
-            $normalized['cards'] = $defaults['cards'];
-        }
+        )));
 
         self::saveSetting('public_services_page', $normalized);
     }
@@ -88,6 +87,31 @@ class PublicPageContent
         ];
     }
 
+    /**
+     * Keep the public services list fixed while preserving an uploaded image
+     * already assigned to the matching service in the admin.
+     *
+     * @param  array<int, array<string, mixed>>  $cards
+     * @return array<int, array{title:string,description:string,image:string,image_alt:string}>
+     */
+    private static function curatedServiceCards(array $cards): array
+    {
+        $savedCards = [];
+        foreach ($cards as $card) {
+            $normalized = self::normalizeCard($card);
+            $savedCards[strtolower($normalized['title'])] = $normalized;
+        }
+
+        return array_values(array_map(function (array $definition) use ($savedCards): array {
+            $saved = $savedCards[strtolower($definition['title'])] ?? [];
+
+            return array_merge($definition, [
+                'image' => trim((string) ($saved['image'] ?? $definition['image'])),
+                'image_alt' => trim((string) ($saved['image_alt'] ?? '')) ?: $definition['image_alt'],
+            ]);
+        }, self::servicesDefaults()['cards']));
+    }
+
     private static function ourWorkDefaults(): array
     {
         return [
@@ -106,39 +130,33 @@ class PublicPageContent
             'cards' => [
                 [
                     'title' => 'AV Production & Set Build',
-                    'description' => 'We transform spaces with seamless coordination of AV, LED screens, projection, custom lighting, themed sets, and props.',
+                    'description' => 'Sound, lighting, LED screens, staging, scenic construction, and show control are designed as one dependable production system.',
                     'image' => '',
                     'image_alt' => 'Live event AV production and stage lighting',
                 ],
                 [
-                    'title' => 'Content Development',
-                    'description' => 'We provide multi-platform content that helps you effectively communicate your message to employees, customers, and clients.',
-                    'image' => '',
-                    'image_alt' => 'Event content planning meeting',
-                ],
-                [
                     'title' => 'Event Design & Theming',
-                    'description' => 'We design immersive environments that bring your brand to life and transform your vision into unforgettable experiences.',
+                    'description' => 'We turn your brief into a coherent environment through spatial design, décor, furniture, lighting, and thoughtful guest touchpoints.',
                     'image' => '',
-                    'image_alt' => 'Themed event environment with production lighting',
+                    'image_alt' => 'A themed event environment designed for guests',
                 ],
                 [
-                    'title' => 'Venue Sourcing',
-                    'description' => 'We identify and coordinate venues that match your audience, format, production needs, and guest experience.',
+                    'title' => 'Delegate Logistics',
+                    'description' => 'Registration, travel, accommodation, accreditation, schedules, transport, and on-site movement are coordinated around a smooth delegate journey.',
                     'image' => '',
-                    'image_alt' => 'Event venue planning session',
+                    'image_alt' => 'Delegates arriving at a professionally managed event',
                 ],
                 [
-                    'title' => 'Technical Production',
-                    'description' => 'We manage sound, lighting, staging, video, streaming, and show flow with precision from setup to live delivery.',
+                    'title' => 'Streaming & Virtual Events',
+                    'description' => 'Broadcast production, remote speakers, live streaming, recording, and audience interaction connect the room with viewers everywhere.',
                     'image' => '',
-                    'image_alt' => 'Technical event production equipment',
+                    'image_alt' => 'Live event streaming and virtual production setup',
                 ],
                 [
-                    'title' => 'Logistics & Guest Experience',
-                    'description' => 'We coordinate supplier movement, guest journeys, schedules, and on-site teams so every detail feels effortless.',
+                    'title' => 'Event Branding',
+                    'description' => 'From stage graphics and digital screens to wayfinding, print, and branded installations, every surface reinforces one clear identity.',
                     'image' => '',
-                    'image_alt' => 'Outdoor event logistics and guest experience',
+                    'image_alt' => 'Branded stage and event environment',
                 ],
             ],
         ];

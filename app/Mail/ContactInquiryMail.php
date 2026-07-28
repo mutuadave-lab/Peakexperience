@@ -26,6 +26,8 @@ class ContactInquiryMail extends Mailable
      *   venue:string,
      *   guest_count:string,
      *   event_type:string,
+     *   budget:string,
+     *   referral_source:string,
      *   additional_info:string
      * }  $enquiry
      */
