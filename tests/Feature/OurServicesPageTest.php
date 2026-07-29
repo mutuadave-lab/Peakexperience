@@ -62,6 +62,9 @@ class OurServicesPageTest extends TestCase
         $response->assertSee('Delegate Logistics');
         $response->assertSee('Streaming &amp; Virtual Events', false);
         $response->assertSee('Event Branding');
+        $response->assertSee('Exhibition Booth Building');
+        $response->assertSee('custom exhibition stands for conferences and trade shows');
+        $response->assertSee(asset('images/services/exhibition-booth-building.jpg'), false);
         $response->assertSee('Translation Services');
         $response->assertSee('simultaneous interpretation equipment');
         $response->assertDontSee('Content Development');
@@ -74,6 +77,6 @@ class OurServicesPageTest extends TestCase
         $response->assertSee('<title>Event Production Services in Kenya | Peak Experience</title>', false);
         $response->assertSee('<link rel="canonical" href="' . route('our-services') . '">', false);
         $response->assertSee('"@type":"ItemList"', false);
-        $this->assertSame(6, substr_count($response->getContent(), 'class="service-item"'));
+        $this->assertSame(7, substr_count($response->getContent(), 'class="service-item"'));
     }
 }

@@ -135,7 +135,7 @@ class PublicPageContent
         return [
             'eyebrow' => 'End-to-end event production in Kenya',
             'title' => 'Our Services',
-            'description' => 'Peak Experience delivers professional event production services in Nairobi and across Kenya. From AV production, set construction, event design, delegate logistics, live streaming, and event branding to simultaneous interpretation, our team coordinates every technical and creative detail for conferences, corporate events, exhibitions, launches, and hybrid experiences.',
+            'description' => 'Peak Experience delivers professional event production services in Nairobi and across Kenya. From AV production, set construction, event design, delegate logistics, live streaming, event branding, and custom exhibition booth building to simultaneous interpretation, our team coordinates every technical and creative detail for conferences, corporate events, exhibitions, launches, and hybrid experiences.',
             'cards' => [
                 [
                     'title' => 'AV Production & Set Build',
@@ -166,6 +166,12 @@ class PublicPageContent
                     'description' => 'From stage graphics and digital screens to wayfinding, print, and branded installations, every surface reinforces one clear identity.',
                     'image' => '',
                     'image_alt' => 'Branded stage and event environment',
+                ],
+                [
+                    'title' => 'Exhibition Booth Building',
+                    'description' => 'We design and build custom exhibition stands for conferences and trade shows, translating your brand guidelines into engaging, functional booths with branded graphics, displays, lighting, furniture, and visitor-ready meeting spaces.',
+                    'image' => 'images/services/exhibition-booth-building.jpg',
+                    'image_alt' => 'Custom Incode exhibition booth built to match brand guidelines at a conference',
                 ],
                 [
                     'title' => 'Translation Services',
