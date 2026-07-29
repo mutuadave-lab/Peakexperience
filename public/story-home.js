@@ -161,3 +161,65 @@
         }
     });
 })();
+
+(() => {
+    const carousel = document.querySelector('[data-clients-carousel]');
+    const track = carousel?.querySelector('[data-clients-track]');
+    const reduceMotion = window.matchMedia
+        ? window.matchMedia('(prefers-reduced-motion: reduce)')
+        : { matches: false };
+
+    if (!carousel || !track || reduceMotion.matches) {
+        return;
+    }
+
+    const clientCount = Number.parseInt(track.dataset.clientCount || '0', 10);
+    const firstCard = track.querySelector('.client-logo-card');
+    const firstList = track.querySelector('.clients-list');
+
+    if (!firstCard || !firstList || clientCount < 2) {
+        return;
+    }
+
+    let index = 0;
+    let interval;
+    let resetTimer;
+
+    const stepWidth = () => {
+        const styles = window.getComputedStyle(firstList);
+        return firstCard.getBoundingClientRect().width + Number.parseFloat(styles.columnGap || styles.gap || '0');
+    };
+
+    const advance = () => {
+        index += 1;
+        track.classList.add('is-animating');
+        track.style.transform = `translate3d(${-index * stepWidth()}px, 0, 0)`;
+
+        if (index === clientCount) {
+            window.clearTimeout(resetTimer);
+            resetTimer = window.setTimeout(() => {
+                track.classList.remove('is-animating');
+                track.style.transform = 'translate3d(0, 0, 0)';
+                index = 0;
+            }, 1500);
+        }
+    };
+
+    const start = () => {
+        window.clearInterval(interval);
+        interval = window.setInterval(advance, 3200);
+    };
+
+    const stop = () => window.clearInterval(interval);
+
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', start);
+    carousel.addEventListener('focusin', stop);
+    carousel.addEventListener('focusout', start);
+    window.addEventListener('resize', () => {
+        track.classList.remove('is-animating');
+        track.style.transform = `translate3d(${-index * stepWidth()}px, 0, 0)`;
+    });
+
+    start();
+})();
