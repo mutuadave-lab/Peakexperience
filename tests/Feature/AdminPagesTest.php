@@ -362,6 +362,11 @@ class AdminPagesTest extends TestCase
         $brandResponse->assertSee('LAUNCH, IMMERSE &amp; ENGAGE', false);
         $brandResponse->assertSee('Brand experiences shaped to make audiences feel the story.');
         $brandResponse->assertSee('Immersive Launches');
+        $brandResponse->assertSee(asset('images/pages/brand-experiences/hero-1200.webp'), false);
+        $brandResponse->assertSee(asset('images/pages/brand-experiences/immersive-launches-1200.webp'), false);
+        $brandResponse->assertSee(asset('images/pages/brand-experiences/brand-storytelling-1400.webp'), false);
+        $brandResponse->assertSee(asset('images/pages/brand-experiences/audience-engagement-1400.webp'), false);
+        $brandResponse->assertSee('srcset="' . asset('images/pages/brand-experiences/hero-800.webp') . ' 800w,', false);
         $brandResponse->assertDontSee('<span class="hero__preheading">PAGE</span>', false);
         $brandResponse->assertDontSee('<span class="block-head__eyebrow">Page</span>', false);
 
