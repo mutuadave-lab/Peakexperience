@@ -147,7 +147,7 @@ class HomeController extends Controller
 
         $contactEmail = (string) data_get($this->contactData(), 'contactEmail', '');
         $returnUrl = ($validated['source'] ?? '') === 'services'
-            ? route('our-services') . '#event-enquiry'
+            ? route('our-services') . '#event-enquiry-dialog'
             : url('/#contact');
 
         try {

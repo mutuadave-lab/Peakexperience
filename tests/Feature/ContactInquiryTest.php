@@ -90,10 +90,10 @@ class ContactInquiryTest extends TestCase
             'consent' => '1',
         ];
 
-        $response = $this->from(route('our-services') . '#event-enquiry')
+        $response = $this->from(route('our-services') . '#event-enquiry-dialog')
             ->post(route('contact.submit'), $payload);
 
-        $response->assertRedirect(route('our-services') . '#event-enquiry');
+        $response->assertRedirect(route('our-services') . '#event-enquiry-dialog');
         $response->assertSessionHas('contact_status');
 
         Mail::assertSent(ContactInquiryMail::class, function (ContactInquiryMail $mail) use ($payload) {

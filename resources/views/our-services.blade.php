@@ -95,11 +95,14 @@
         .services-cta-content{position:relative;z-index:1;display:flex;min-height:inherit;flex-direction:column;justify-content:center;width:min(1180px,calc(100% - 96px));margin:0 auto;padding:70px 0}
         .services-cta-content h2{max-width:850px;margin:0;color:#fff;font-size:clamp(48px,5.1vw,86px);font-weight:300;line-height:.98;text-transform:uppercase}
         .services-cta-content p{max-width:650px;margin:34px 0;color:#fff;font-size:clamp(22px,1.8vw,31px);font-weight:300;line-height:1.42}
-        .services-cta-button{display:inline-flex;align-items:center;justify-content:space-between;width:272px;min-height:86px;border-radius:10px;padding:0 34px;background:#fff;color:#747678;text-decoration:none;text-transform:uppercase;font-size:16px;font-weight:600;letter-spacing:.03em}
+        .services-cta-button{display:inline-flex;align-items:center;justify-content:space-between;width:272px;min-height:86px;border:0;border-radius:10px;padding:0 34px;background:#fff;color:#747678;font:600 16px/1 inherit;letter-spacing:.03em;text-decoration:none;text-transform:uppercase;cursor:pointer}
         .services-cta-button::after{content:"\2192";font-size:28px;font-weight:300}
         .services-cta-button:hover,.services-cta-button:focus-visible{background:#10808f;color:#fff}
-        .enquiry-section{padding:clamp(78px,9vw,132px) 24px;background:#edf0f1}
-        .enquiry-card{width:min(1180px,100%);margin:0 auto;border:1px solid #d9dddf;border-radius:22px;padding:clamp(28px,5vw,68px);background:#fff;box-shadow:0 24px 70px rgba(30,38,44,.08)}
+        .enquiry-modal{width:min(1180px,calc(100% - 32px));max-width:none;max-height:92vh;margin:auto;border:0;border-radius:22px;padding:0;background:transparent;color:#5f595b;overflow:visible}
+        .enquiry-modal::backdrop{background:rgba(12,20,25,.72);backdrop-filter:blur(5px)}
+        .enquiry-card{position:relative;width:100%;max-height:92vh;margin:0;border:1px solid #d9dddf;border-radius:22px;padding:clamp(28px,5vw,68px);background:#fff;box-shadow:0 24px 70px rgba(0,0,0,.22);overflow-y:auto}
+        .enquiry-close{position:absolute;top:24px;right:24px;display:grid;width:48px;height:48px;border:0;border-radius:50%;place-items:center;background:#edf0f1;color:#5f595b;font:300 38px/1 Arial,sans-serif;cursor:pointer}
+        .enquiry-close:hover,.enquiry-close:focus-visible{background:#10808f;color:#fff;outline:0}
         .enquiry-header{display:flex;justify-content:space-between;gap:32px;margin-bottom:44px}
         .enquiry-header h2{margin:0 0 12px;color:#5f595b;font-size:clamp(40px,4vw,64px);font-weight:400;line-height:1}
         .enquiry-header p{margin:0;color:#6a6365;font-size:20px;line-height:1.5}
@@ -120,7 +123,7 @@
         .services-page .se-footer-brand{background:#10808f;color:#fff}
         .site-nav a[aria-current="page"]{background:rgba(32,38,51,.06);border-radius:8px}
         @media(max-width:980px){.services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.services-hero .wrap{width:min(1180px,calc(100% - 48px))}.services-cta-content{width:calc(100% - 64px)}}
-        @media(max-width:680px){.services-hero{padding:64px 0 58px}.services-hero .wrap{width:min(1180px,calc(100% - 32px))}.services-hero h1{font-size:48px}.services-hero p{font-size:22px}.services-grid{grid-template-columns:1fr;gap:58px}.service-item h2{font-size:32px}.service-item p{font-size:20px}.service-item-media{border-radius:9px;aspect-ratio:1.35}.services-cta{padding-left:12px;padding-right:12px}.services-cta-card{min-height:600px;border-radius:14px}.services-cta-content{width:calc(100% - 40px);padding:54px 0}.services-cta-content h2{font-size:42px}.services-cta-button{width:100%}.enquiry-section{padding:58px 14px}.enquiry-card{border-radius:14px;padding:28px 20px}.enquiry-form-grid{grid-template-columns:1fr}.enquiry-field--full{grid-column:auto}.enquiry-header{display:block}.enquiry-header h2{font-size:40px}}
+        @media(max-width:680px){.services-hero{padding:64px 0 58px}.services-hero .wrap{width:min(1180px,calc(100% - 32px))}.services-hero h1{font-size:48px}.services-hero p{font-size:22px}.services-grid{grid-template-columns:1fr;gap:58px}.service-item h2{font-size:32px}.service-item p{font-size:20px}.service-item-media{border-radius:9px;aspect-ratio:1.35}.services-cta{padding-left:12px;padding-right:12px}.services-cta-card{min-height:600px;border-radius:14px}.services-cta-content{width:calc(100% - 40px);padding:54px 0}.services-cta-content h2{font-size:42px}.services-cta-button{width:100%}.enquiry-modal{width:calc(100% - 20px);max-height:96vh;border-radius:14px}.enquiry-card{max-height:96vh;border-radius:14px;padding:72px 20px 28px}.enquiry-close{top:14px;right:14px}.enquiry-form-grid{grid-template-columns:1fr}.enquiry-field--full{grid-column:auto}.enquiry-header{display:block}.enquiry-header h2{font-size:40px}}
     </style>
 </head>
 <body id="top">
@@ -239,13 +242,14 @@
                     <div class="services-cta-content">
                         <h2 id="services-cta-title">Explore Our Services</h2>
                         <p>Tell us what you are planning and where you need support. We will shape the production, design, logistics, streaming, and branding around your event.</p>
-                        <a class="services-cta-button" href="#event-enquiry">Enquire Now</a>
+                        <button class="services-cta-button" type="button" data-enquiry-open>Enquire Now</button>
                     </div>
                 </div>
             </section>
 
-            <section class="enquiry-section" id="event-enquiry" aria-labelledby="event-enquiry-title">
+            <dialog class="enquiry-modal" id="event-enquiry-dialog" aria-labelledby="event-enquiry-title">
                 <div class="enquiry-card">
+                    <button class="enquiry-close" type="button" data-enquiry-close aria-label="Close event enquiry form">&times;</button>
                     <header class="enquiry-header">
                         <div>
                             <h2 id="event-enquiry-title">Event Enquiry</h2>
@@ -364,7 +368,7 @@
                         <button class="enquiry-submit" type="submit">Submit</button>
                     </form>
                 </div>
-            </section>
+            </dialog>
         </main>
 
         <footer class="se-footer-brand block block--colored">
@@ -439,12 +443,30 @@
     @endif
 
     <script src="{{ asset('story-home.js') }}" defer></script>
-    @if ($errors->any() || session('contact_status') || session('contact_error'))
-        <script>
-            window.addEventListener('DOMContentLoaded', () => {
-                document.getElementById('event-enquiry')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const dialog = document.getElementById('event-enquiry-dialog');
+            const openDialog = () => {
+                if (dialog && !dialog.open) {
+                    dialog.showModal();
+                }
+            };
+
+            document.querySelectorAll('[data-enquiry-open]').forEach((button) => {
+                button.addEventListener('click', openDialog);
             });
-        </script>
-    @endif
+
+            dialog?.querySelector('[data-enquiry-close]')?.addEventListener('click', () => dialog.close());
+            dialog?.addEventListener('click', (event) => {
+                if (event.target === dialog) {
+                    dialog.close();
+                }
+            });
+
+            @if ($errors->any() || session('contact_status') || session('contact_error'))
+                openDialog();
+            @endif
+        });
+    </script>
 </body>
 </html>
