@@ -19,12 +19,37 @@
     $fallbackIntro = \App\Support\HomepageContent::assetUrl((string) data_get($sectionImages ?? [], 'intro.path', ''));
     $fallbackProof = \App\Support\HomepageContent::assetUrl((string) data_get($sectionImages ?? [], 'proof.path', ''));
     $heroImage = $pageImage !== '' ? $pageImage : ($fallbackHero !== '' ? $fallbackHero : $fallbackIntro);
+    $heroImageSrcset = '';
     $galleryImages = array_values(array_filter(array_map(
         fn ($image) => \App\Support\HomepageContent::assetUrl((string) $image),
         is_array($page['gallery_images'] ?? null) ? $page['gallery_images'] : []
     )));
     $routePageSlug = request()->route('page');
     $pageSlug = trim((string) ($page['slug'] ?? (is_string($routePageSlug) ? $routePageSlug : '')));
+    $brandExperienceMedia = [
+        'hero' => [
+            'image' => asset('images/pages/brand-experiences/hero-1200.webp'),
+            'srcset' => asset('images/pages/brand-experiences/hero-800.webp') . ' 800w, ' . asset('images/pages/brand-experiences/hero-1200.webp') . ' 1200w',
+        ],
+        'cards' => [
+            [
+                'image' => asset('images/pages/brand-experiences/immersive-launches-1200.webp'),
+                'srcset' => asset('images/pages/brand-experiences/immersive-launches-800.webp') . ' 800w, ' . asset('images/pages/brand-experiences/immersive-launches-1200.webp') . ' 1200w',
+            ],
+            [
+                'image' => asset('images/pages/brand-experiences/brand-storytelling-1400.webp'),
+                'srcset' => asset('images/pages/brand-experiences/brand-storytelling-800.webp') . ' 800w, ' . asset('images/pages/brand-experiences/brand-storytelling-1400.webp') . ' 1400w',
+            ],
+            [
+                'image' => asset('images/pages/brand-experiences/audience-engagement-1400.webp'),
+                'srcset' => asset('images/pages/brand-experiences/audience-engagement-800.webp') . ' 800w, ' . asset('images/pages/brand-experiences/audience-engagement-1400.webp') . ' 1400w',
+            ],
+        ],
+    ];
+    if ($pageSlug === 'brand-experiences') {
+        $heroImage = $brandExperienceMedia['hero']['image'];
+        $heroImageSrcset = $brandExperienceMedia['hero']['srcset'];
+    }
     $pageType = trim((string) ($page['type'] ?? ''));
     $pageTypeLabel = strcasecmp($pageType, 'Page') === 0 ? '' : $pageType;
     $isPost = $pageType === 'Post';
@@ -63,10 +88,16 @@
     $serviceWorkCards = [];
     if ($isServiceFormatPage) {
         foreach ($serviceWorkCardContent[$pageSlug] ?? [] as $index => $card) {
+            $brandCardMedia = $pageSlug === 'brand-experiences'
+                ? ($brandExperienceMedia['cards'][$index] ?? null)
+                : null;
             $serviceWorkCards[] = [
                 'title' => $card['title'],
                 'text' => $card['text'],
-                'image' => $serviceImageCount > 0 ? $serviceImagePool[$index % $serviceImageCount] : '',
+                'image' => is_array($brandCardMedia)
+                    ? $brandCardMedia['image']
+                    : ($serviceImageCount > 0 ? $serviceImagePool[$index % $serviceImageCount] : ''),
+                'image_srcset' => is_array($brandCardMedia) ? $brandCardMedia['srcset'] : '',
             ];
         }
     }
@@ -391,7 +422,11 @@
                     <div class="bg bg--embed">
                         @if ($heroImage !== '')
                             <div class="bg u-bg-cover">
-                                <img src="{{ $heroImage }}" alt="{{ $page['image_alt'] !== '' ? $page['image_alt'] : $page['title'] }}">
+                                <img
+                                    src="{{ $heroImage }}"
+                                    @if ($heroImageSrcset !== '') srcset="{{ $heroImageSrcset }}" sizes="calc(100vw - (var(--page-image-gutter) * 2))" @endif
+                                    alt="{{ $page['image_alt'] !== '' ? $page['image_alt'] : $page['title'] }}"
+                                >
                             </div>
                         @endif
                         <div class="bg bg--opacity" style="opacity:0.25"></div>
@@ -471,7 +506,12 @@
                                 @foreach ($serviceWorkCards as $index => $card)
                                     <article class="service-work-card">
                                         @if ($card['image'] !== '')
-                                            <img src="{{ $card['image'] }}" alt="{{ $card['title'] }}">
+                                            <img
+                                                src="{{ $card['image'] }}"
+                                                @if (($card['image_srcset'] ?? '') !== '') srcset="{{ $card['image_srcset'] }}" sizes="(max-width: 799px) 100vw, 33vw" @endif
+                                                alt="{{ $card['title'] }}"
+                                                loading="lazy"
+                                            >
                                         @endif
                                         <div class="service-work-card__body">
                                             <span class="service-work-card__index">{{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}</span>
