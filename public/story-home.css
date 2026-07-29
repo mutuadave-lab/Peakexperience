@@ -1492,6 +1492,101 @@ body.page-leaving .page-transition__content {
     background: #ffffff;
 }
 
+.section-clients {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+    padding-inline: 0;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.clients-heading {
+    display: grid;
+    justify-items: center;
+    gap: 0.8rem;
+    text-align: center;
+}
+
+.clients-heading h2 {
+    margin: 0;
+    color: var(--ink-strong);
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+}
+
+.clients-heading p {
+    max-width: 58rem;
+    margin: 0.8rem auto 0;
+    color: var(--muted);
+    font-size: clamp(1.15rem, 2vw, 1.75rem);
+    line-height: 1.55;
+}
+
+.clients-carousel {
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+
+.clients-track {
+    display: flex;
+    width: max-content;
+    animation: clients-slide 34s linear infinite;
+    will-change: transform;
+}
+
+.clients-list {
+    display: flex;
+    flex: 0 0 auto;
+    gap: clamp(1.25rem, 2.5vw, 2.5rem);
+    padding-right: clamp(1.25rem, 2.5vw, 2.5rem);
+}
+
+.client-logo-card {
+    display: grid;
+    flex: 0 0 clamp(13.5rem, 18vw, 17rem);
+    height: clamp(8.5rem, 11vw, 10rem);
+    border-radius: 1.4rem;
+    place-items: center;
+    padding: 1.15rem;
+    background: #f2f3f4;
+}
+
+.client-logo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.clients-carousel:hover .clients-track {
+    animation-play-state: paused;
+}
+
+@keyframes clients-slide {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .clients-carousel {
+        overflow-x: auto;
+        mask-image: none;
+    }
+
+    .clients-track {
+        animation: none;
+    }
+
+    .clients-list[aria-hidden="true"] {
+        display: none;
+    }
+}
+
 .service-stack {
     display: grid;
     gap: 1rem;

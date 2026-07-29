@@ -15,5 +15,10 @@ class ExampleTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
+        $response->assertSee('href="' . route('our-services') . '">Explore Services</a>', false);
+        $response->assertSee('id="clients-title"', false);
+        $response->assertSee('Tower Xchange Africa');
+        $response->assertSee(asset('images/clients/safaricom.webp'), false);
+        $response->assertSee('clients-track', false);
     }
 }
