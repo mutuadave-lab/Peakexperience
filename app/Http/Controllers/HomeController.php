@@ -151,7 +151,9 @@ class HomeController extends Controller
             : url('/#contact');
 
         try {
-            Mail::to($contactEmail)->send(new ContactInquiryMail($enquiry));
+            Mail::mailer((string) config('mail.contact_mailer', 'sendmail'))
+                ->to($contactEmail)
+                ->send(new ContactInquiryMail($enquiry));
         } catch (Throwable $exception) {
             report($exception);
 
