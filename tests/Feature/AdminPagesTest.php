@@ -337,7 +337,7 @@ class AdminPagesTest extends TestCase
                     'gallery_images' => [],
                     'heading_two' => 'Exhibition experiences',
                     'type' => 'Page',
-                    'description' => '<p>Exhibition content</p>',
+                    'description' => '<h1><strong>Exhibition content</strong></h1>',
                     'created_at' => now()->toIso8601String(),
                     'updated_at' => now()->toIso8601String(),
                 ],
@@ -362,19 +362,24 @@ class AdminPagesTest extends TestCase
         $brandResponse->assertSee('LAUNCH, IMMERSE &amp; ENGAGE', false);
         $brandResponse->assertSee('Brand experiences shaped to make audiences feel the story.');
         $brandResponse->assertSee('Immersive Launches');
-        $brandResponse->assertSee(asset('images/pages/brand-experiences/hero-1200.webp'), false);
+        $brandResponse->assertSee(asset('images/pages/brand-experiences/brand-hero-1400.webp'), false);
         $brandResponse->assertSee(asset('images/pages/brand-experiences/immersive-launches-1200.webp'), false);
         $brandResponse->assertSee(asset('images/pages/brand-experiences/brand-storytelling-1400.webp'), false);
         $brandResponse->assertSee(asset('images/pages/brand-experiences/audience-engagement-1400.webp'), false);
-        $brandResponse->assertSee('srcset="' . asset('images/pages/brand-experiences/hero-800.webp') . ' 800w,', false);
+        $brandResponse->assertSee('srcset="' . asset('images/pages/brand-experiences/brand-hero-800.webp') . ' 800w,', false);
         $brandResponse->assertDontSee('<span class="hero__preheading">PAGE</span>', false);
         $brandResponse->assertDontSee('<span class="block-head__eyebrow">Page</span>', false);
 
         $exhibitionResponse = $this->get(route('pages.show', ['page' => 'exhibitions']));
 
         $exhibitionResponse->assertOk();
-        $exhibitionResponse->assertSee('<body id="top" class="story-page theme-se">', false);
+        $exhibitionResponse->assertSee('<body id="top" class="story-page theme-se story-page--exhibitions">', false);
         $exhibitionResponse->assertDontSee('<body id="top" class="story-page theme-se story-page--service-format">', false);
+        $exhibitionResponse->assertSee(asset('images/pages/exhibitions/exhibitions-hero-1200.webp'), false);
+        $exhibitionResponse->assertSee(asset('images/pages/exhibitions/exhibitions-planning-1200.webp'), false);
+        $exhibitionResponse->assertSee('<meta name="description" content="Create standout exhibitions in Kenya with custom stands, visitor-focused layouts, branding, lighting, AV, logistics, and seamless on-site production.">', false);
+        $exhibitionResponse->assertSee('<p>Exhibition content</p>', false);
+        $exhibitionResponse->assertDontSee('<strong>Exhibition content</strong>', false);
         $exhibitionResponse->assertDontSee('<span class="hero__preheading">PAGE</span>', false);
         $exhibitionResponse->assertDontSee('<span class="block-head__eyebrow">Page</span>', false);
     }
