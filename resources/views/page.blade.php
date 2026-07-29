@@ -28,8 +28,8 @@
     $pageSlug = trim((string) ($page['slug'] ?? (is_string($routePageSlug) ? $routePageSlug : '')));
     $brandExperienceMedia = [
         'hero' => [
-            'image' => asset('images/pages/brand-experiences/hero-1200.webp'),
-            'srcset' => asset('images/pages/brand-experiences/hero-800.webp') . ' 800w, ' . asset('images/pages/brand-experiences/hero-1200.webp') . ' 1200w',
+            'image' => asset('images/pages/brand-experiences/brand-hero-1400.webp'),
+            'srcset' => asset('images/pages/brand-experiences/brand-hero-800.webp') . ' 800w, ' . asset('images/pages/brand-experiences/brand-hero-1400.webp') . ' 1400w',
         ],
         'cards' => [
             [
@@ -49,6 +49,20 @@
     if ($pageSlug === 'brand-experiences') {
         $heroImage = $brandExperienceMedia['hero']['image'];
         $heroImageSrcset = $brandExperienceMedia['hero']['srcset'];
+    }
+    $exhibitionsMedia = [
+        'hero' => [
+            'image' => asset('images/pages/exhibitions/exhibitions-hero-1200.webp'),
+            'srcset' => asset('images/pages/exhibitions/exhibitions-hero-800.webp') . ' 800w, ' . asset('images/pages/exhibitions/exhibitions-hero-1200.webp') . ' 1200w',
+        ],
+        'planning' => [
+            'image' => asset('images/pages/exhibitions/exhibitions-planning-1200.webp'),
+            'srcset' => asset('images/pages/exhibitions/exhibitions-planning-800.webp') . ' 800w, ' . asset('images/pages/exhibitions/exhibitions-planning-1200.webp') . ' 1200w',
+        ],
+    ];
+    if ($pageSlug === 'exhibitions') {
+        $heroImage = $exhibitionsMedia['hero']['image'];
+        $heroImageSrcset = $exhibitionsMedia['hero']['srcset'];
     }
     $pageType = trim((string) ($page['type'] ?? ''));
     $pageTypeLabel = strcasecmp($pageType, 'Page') === 0 ? '' : $pageType;
@@ -113,6 +127,15 @@
     $briefHeading = trim((string) ($page['heading_two'] ?? '')) ?: 'Brief';
     $deliveryHeading = trim((string) ($page['delivery_heading'] ?? '')) ?: 'Delivery';
     $deliveryDescription = trim((string) ($page['delivery_description'] ?? ''));
+    $seoMetaDescription = trim((string) ($page['meta_description'] ?? ''));
+    if ($pageSlug === 'exhibitions') {
+        $seoMetaDescription = 'Create standout exhibitions in Kenya with custom stands, visitor-focused layouts, branding, lighting, AV, logistics, and seamless on-site production.';
+    }
+    $pageDescription = (string) ($page['description'] ?? '');
+    if ($pageSlug === 'exhibitions') {
+        $pageDescription = preg_replace('/<h[1-6]\b[^>]*>(.*?)<\/h[1-6]>/is', '<p>$1</p>', $pageDescription) ?? $pageDescription;
+        $pageDescription = preg_replace('/<\/?(?:strong|b)\b[^>]*>/i', '', $pageDescription) ?? $pageDescription;
+    }
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -121,8 +144,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @include('partials.page-transition-head')
     <title>{{ $page['meta_title'] !== '' ? $page['meta_title'] : $page['title'] }}</title>
-    @if ($page['meta_description'] !== '')
-        <meta name="description" content="{{ $page['meta_description'] }}">
+    @if ($seoMetaDescription !== '')
+        <meta name="description" content="{{ $seoMetaDescription }}">
     @endif
     <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -160,6 +183,9 @@
         .block-head__eyebrow{display:block;margin:0 0 18px;text-transform:uppercase;font-size:13px;line-height:18px;font-weight:500;letter-spacing:.12em;color:#10808f}
         .block-head__title{margin:0 0 22px;color:#333;font-family:"GT Walsheim",Helvetica,Arial,sans-serif;font-size:44px;line-height:44px;font-weight:400;text-transform:uppercase}
         .b-intro .block-head__title{margin:0;color:#5a5557;font-size:clamp(36px,3.4vw,54px);line-height:1.08;font-weight:500;text-transform:none;text-wrap:balance}
+        .exhibitions-intro-media{display:block;margin-top:30px;overflow:hidden;border-radius:18px;aspect-ratio:4/3;background:#e8e8e8}
+        .exhibitions-intro-media img{width:100%;height:100%;object-fit:cover}
+        .story-page--exhibitions .b-intro .block-head__body,.story-page--exhibitions .b-intro .block-head__body *{font-weight:300!important}
         .block-head__subtitle{margin:0 auto 28px;color:#333;font-size:27px;line-height:32px;font-weight:300}
         .b-intro .block-head__subtitle{margin:0 0 34px;color:#6a6365;font-size:clamp(26px,2.15vw,36px);line-height:1.3;text-wrap:balance}
         .block-head__body{color:#333;font-size:18px;line-height:30px}
@@ -250,7 +276,7 @@
         @media(max-width:599px){body.story-page{--page-image-gutter:14px;font-size:16px;line-height:24px}.hero{min-height:72vh;border-radius:12px}.hero__body .hero__title{font-size:40px;line-height:36px}.story-page--service-format .hero__body .hero__title{font-size:clamp(34px,10.5vw,44px);line-height:1;overflow-wrap:break-word}.hero__copy{font-size:21px;line-height:25px}.story-page--service-format .hero__copy{font-size:22px}.block__padding{padding:70px 18px}.b-intro .block-head__subtitle{font-size:23px;line-height:28px}.b-intro .block-head__body{font-size:17px;line-height:27px}.gmasonry__wrap,.post-gallery__grid{grid-template-columns:1fr}.b-gallery-masonry .block__padding{padding:0 var(--page-image-gutter) 70px}.gmasonry__item,.post-gallery__item{min-height:230px}.service-work-card{min-height:320px}.service-work-card__body{padding:22px}.post-section{padding:58px 20px}.post-section__copy{font-size:20px;line-height:1.5}}
     </style>
 </head>
-<body id="top" class="story-page theme-se{{ $isServiceFormatPage ? ' story-page--service-format' : '' }}">
+<body id="top" class="story-page theme-se{{ $isServiceFormatPage ? ' story-page--service-format' : '' }}{{ $pageSlug === 'exhibitions' ? ' story-page--exhibitions' : '' }}">
     @include('partials.page-transition')
     <div class="page-shell">
         <header class="site-header">
@@ -458,11 +484,17 @@
                                 <span class="block-head__eyebrow">{{ $pageTypeLabel }}</span>
                             @endif
                             <h2 class="block-head__title">{{ $pageIntroHeading }}</h2>
+                            @if ($pageSlug === 'exhibitions')
+                                <picture class="exhibitions-intro-media">
+                                    <source srcset="{{ $exhibitionsMedia['planning']['srcset'] }}" sizes="(max-width: 799px) 100vw, 38vw" type="image/webp">
+                                    <img src="{{ $exhibitionsMedia['planning']['image'] }}" alt="Custom exhibition booth designed and built by Peak Experience" loading="lazy">
+                                </picture>
+                            @endif
                         </div>
 
                         <div class="block-copy">
                             <div class="block-head__body u-no-margin-content">
-                                {!! $page['description'] !!}
+                                {!! $pageDescription !!}
                             </div>
 
                             <div class="block-cta u-text-center b-intro__buttons">
