@@ -339,8 +339,8 @@
                     <p>We are proud to support industry leaders, innovative brands, and forward-thinking organisations with polished event production and memorable audience experiences.</p>
                 </div>
 
-                <div class="clients-carousel" role="region" aria-label="Peak Experience clients">
-                    <div class="clients-track">
+                <div class="clients-carousel" data-clients-carousel role="region" aria-label="Peak Experience clients">
+                    <div class="clients-track" data-clients-track data-client-count="{{ count($clients) }}">
                         @foreach ([false, true] as $duplicate)
                             <div class="clients-list" @if ($duplicate) aria-hidden="true" @endif>
                                 @foreach ($clients as $client)

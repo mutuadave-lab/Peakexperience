@@ -19,6 +19,7 @@ class ExampleTest extends TestCase
         $response->assertSee('id="clients-title"', false);
         $response->assertSee('Tower Xchange Africa');
         $response->assertSee(asset('images/clients/safaricom.webp'), false);
-        $response->assertSee('clients-track', false);
+        $response->assertSee('data-clients-carousel', false);
+        $response->assertSee('data-client-count="7"', false);
     }
 }
