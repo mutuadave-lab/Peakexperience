@@ -14,6 +14,15 @@
 
     $sectors = ['Conferences', 'Brand launches', 'Exhibitions', 'Award nights', 'Hybrid events', 'Roadshows'];
     $footprint = ['Outdoor builds'];
+    $clients = [
+        ['name' => 'Tower Xchange Africa', 'logo' => 'tower-xchange-africa.webp'],
+        ['name' => 'AkiraChix', 'logo' => 'akira-chix.webp'],
+        ['name' => 'Safaricom', 'logo' => 'safaricom.webp'],
+        ['name' => 'ITW Africa', 'logo' => 'itw-africa.webp'],
+        ['name' => 'Africa Fintech Forum', 'logo' => 'africa-fintech-forum.webp'],
+        ['name' => 'TARS26', 'logo' => 'tars26.webp'],
+        ['name' => 'ZEP-RE', 'logo' => 'zep-re.webp'],
+    ];
     $eventTypeOptions = [
         'Conference',
         'Brand Launch',
@@ -262,7 +271,7 @@
                         </div>
 
                         <p>We deliver seamless event production, staging, media systems, and exhibition support through one coordinated team. From the first planning session to live show-day execution, every service is shaped to keep your event polished, engaging, and technically steady.</p>
-                        <a class="button button-primary service-showcase-button" href="#services-detail">Explore Services</a>
+                        <a class="button button-primary service-showcase-button" href="{{ route('our-services') }}">Explore Services</a>
                     </div>
 
                     <figure class="service-showcase-media">
@@ -320,6 +329,34 @@
                         @endforeach
                     </div>
 
+                </div>
+            </section>
+
+            <section class="section section-clients" id="clients" aria-labelledby="clients-title">
+                <div class="wrap clients-heading reveal">
+                    <span class="section-prefix">Elevating events together</span>
+                    <h2 id="clients-title">Our Clients</h2>
+                    <p>We are proud to support industry leaders, innovative brands, and forward-thinking organisations with polished event production and memorable audience experiences.</p>
+                </div>
+
+                <div class="clients-carousel" role="region" aria-label="Peak Experience clients">
+                    <div class="clients-track">
+                        @foreach ([false, true] as $duplicate)
+                            <div class="clients-list" @if ($duplicate) aria-hidden="true" @endif>
+                                @foreach ($clients as $client)
+                                    <div class="client-logo-card">
+                                        <img
+                                            src="{{ asset('images/clients/' . $client['logo']) }}"
+                                            alt="{{ $duplicate ? '' : $client['name'] }}"
+                                            loading="lazy"
+                                            width="520"
+                                            height="180"
+                                        >
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </section>
 
