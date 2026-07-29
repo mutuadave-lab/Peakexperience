@@ -72,7 +72,9 @@ class OurServicesPageTest extends TestCase
         $response->assertDontSee('Technical Production');
         $response->assertSee('homepage/pages/work-hero.jpg', false);
         $response->assertSee('homepage/pages/gallery/work-four.jpg', false);
-        $response->assertSee('id="event-enquiry"', false);
+        $response->assertSee('<dialog class="enquiry-modal" id="event-enquiry-dialog"', false);
+        $response->assertSee('data-enquiry-open', false);
+        $response->assertDontSee('class="enquiry-section"', false);
         $response->assertSee('action="' . route('contact.submit') . '"', false);
         $response->assertSee('<title>Event Production Services in Kenya | Peak Experience</title>', false);
         $response->assertSee('<link rel="canonical" href="' . route('our-services') . '">', false);
