@@ -43,6 +43,10 @@ class ContactInquiryMail extends Mailable
         }
 
         return new Envelope(
+            from: new Address(
+                (string) config('mail.contact_from.address', 'info@peakexperience.co.ke'),
+                (string) config('mail.contact_from.name', 'Peak Experience'),
+            ),
             subject: 'New Peak Experience enquiry from ' . $this->enquiry['name'],
             replyTo: $replyTo,
         );

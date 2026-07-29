@@ -18,6 +18,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Website Enquiry Mailer
+    |--------------------------------------------------------------------------
+    |
+    | Contact forms must use a delivery transport even when the application's
+    | general-purpose mailer is set to "log" in a development environment.
+    |
+    */
+
+    'contact_mailer' => env('CONTACT_MAILER', 'sendmail'),
+
+    'contact_from' => [
+        'address' => env('CONTACT_FROM_ADDRESS', 'info@peakexperience.co.ke'),
+        'name' => env('CONTACT_FROM_NAME', 'Peak Experience'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Mailer Configurations
     |--------------------------------------------------------------------------
     |

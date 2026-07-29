@@ -33,6 +33,8 @@ class ContactInquiryTest extends TestCase
 
         Mail::assertSent(ContactInquiryMail::class, function (ContactInquiryMail $mail) use ($payload) {
             return $mail->hasTo('info@peakexperience.co.ke')
+                && $mail->hasFrom('info@peakexperience.co.ke', 'Peak Experience')
+                && $mail->hasReplyTo($payload['email'], 'Jane Doe')
                 && $mail->enquiry['name'] === 'Jane Doe'
                 && $mail->enquiry['first_name'] === $payload['first_name']
                 && $mail->enquiry['last_name'] === $payload['last_name']
@@ -72,6 +74,8 @@ class ContactInquiryTest extends TestCase
     public function test_services_enquiry_includes_budget_and_referral_and_returns_to_services(): void
     {
         Mail::fake();
+
+        $this->assertSame('sendmail', config('mail.contact_mailer'));
 
         $payload = [
             'source' => 'services',
