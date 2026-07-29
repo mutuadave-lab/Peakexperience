@@ -23,7 +23,7 @@
     $referralOptions = ['Google / Search', 'Social Media', 'Referral', 'Previous Event', 'Returning Client', 'Other'];
     $ctaImage = count($workImages) > 0 ? $workImages[count($workImages) - 1] : '';
     $seoTitle = 'Event Production Services in Kenya | Peak Experience';
-    $seoDescription = 'Professional event production services in Nairobi and across Kenya, including AV production, set build, event design, delegate logistics, streaming, branding, and simultaneous interpretation.';
+    $seoDescription = 'Professional event production services in Kenya, including AV, set build, event design, logistics, streaming, branding, custom exhibition booths, and interpretation.';
     $serviceSchema = [
         '@context' => 'https://schema.org',
         '@type' => 'ItemList',
@@ -204,7 +204,10 @@
                     <div class="services-grid">
                         @foreach ($pageContent['cards'] as $index => $card)
                             @php
-                                $imageUrl = \App\Support\HomepageContent::assetUrl((string) ($card['image'] ?? ''));
+                                $cardImage = trim((string) ($card['image'] ?? ''));
+                                $imageUrl = str_starts_with($cardImage, 'images/')
+                                    ? asset($cardImage)
+                                    : \App\Support\HomepageContent::assetUrl($cardImage);
                                 if ($imageUrl === '' && count($workImages) > 0) {
                                     $imageUrl = $workImages[$index % count($workImages)];
                                 }
