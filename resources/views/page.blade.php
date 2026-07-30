@@ -299,7 +299,7 @@
         .post-gallery{padding:0 var(--page-image-gutter) 86px;background:#fff}
         .post-gallery__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
         .post-gallery__item{overflow:hidden;height:clamp(260px,24vw,430px);min-height:0;border-radius:9px;background:#ddd}
-        .post-gallery__item img{display:block;width:100%;height:100%;object-fit:cover}
+        .story-page main .post-gallery__item img{display:block;width:100%;max-width:none;height:100%;object-fit:cover}
         .block-head__prefix{margin:0 0 12px;text-transform:uppercase;font-size:14px;line-height:18px;font-weight:500;letter-spacing:.08em;color:#10808f}
         .block--dark .block-head__prefix{color:#fff}
         .block--dark .block-head__title,.block--dark .block-head__subtitle{color:#fff}
