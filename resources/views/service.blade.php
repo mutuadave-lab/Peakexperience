@@ -88,7 +88,7 @@
                 </nav>
 
                 <div class="header-utility">
-                    <a class="button button-nav-cta" href="{{ route('home') }}#contact">Contact Us</a>
+                    <a class="button button-nav-cta" href="{{ route('our-services') }}#event-enquiry-dialog">Contact Us</a>
                 </div>
 
                 <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" data-nav-toggle>

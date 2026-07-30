@@ -74,6 +74,7 @@ class OurServicesPageTest extends TestCase
         $response->assertSee('homepage/pages/gallery/work-four.jpg', false);
         $response->assertSee('<dialog class="enquiry-modal" id="event-enquiry-dialog"', false);
         $response->assertSee('data-enquiry-open', false);
+        $response->assertSee("window.location.hash === '#event-enquiry-dialog'", false);
         $response->assertDontSee('class="enquiry-section"', false);
         $response->assertSee('action="' . route('contact.submit') . '"', false);
         $response->assertSee('<title>Event Production Services in Kenya | Peak Experience</title>', false);

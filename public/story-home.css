@@ -484,6 +484,25 @@ body.page-leaving .page-transition__content {
     color: var(--ink-strong);
 }
 
+.site-nav .nav-dropdown[aria-label="About Us pages"] {
+    min-width: 250px;
+    gap: 0;
+    padding: 32px 8px 12px;
+    border-top-width: 2px;
+    border-radius: 0 0 0.55rem 0.55rem;
+}
+
+.site-nav .nav-dropdown[aria-label="About Us pages"] a {
+    justify-content: flex-start;
+    padding: 12px 16px 12px 10px;
+    border-radius: 0.35rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    text-align: left;
+    white-space: normal;
+}
+
 .header-utility {
     display: flex;
     grid-column: 3;

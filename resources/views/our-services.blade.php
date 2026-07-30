@@ -169,7 +169,7 @@
                 </nav>
 
                 <div class="header-utility">
-                    <a class="button button-nav-cta" href="{{ route('home') }}#contact">Contact Us</a>
+                    <button class="button button-nav-cta" type="button" data-enquiry-open>Contact Us</button>
                 </div>
 
                 <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" data-nav-toggle>
@@ -200,7 +200,7 @@
                                     @endforeach
                                 </ul>
                             </li>
-                            <li><a href="{{ route('home') }}#contact">Contact Us</a></li>
+                            <li><a href="#event-enquiry-dialog" data-enquiry-open>Contact Us</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -493,6 +493,10 @@
                 event.preventDefault();
                 closeDialog();
             });
+
+            if (window.location.hash === '#event-enquiry-dialog') {
+                openDialog();
+            }
 
             @if ($errors->any() || session('contact_status') || session('contact_error'))
                 openDialog();
