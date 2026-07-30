@@ -50,6 +50,27 @@
         $heroImage = $brandExperienceMedia['hero']['image'];
         $heroImageSrcset = $brandExperienceMedia['hero']['srcset'];
     }
+    $conferenceVideoId = 'R6zD8bq1WWc';
+    $conferenceMedia = [
+        'planning' => [
+            'image' => asset('images/pages/conferences/conference-planning-1400.webp'),
+            'srcset' => asset('images/pages/conferences/conference-planning-800.webp') . ' 800w, ' . asset('images/pages/conferences/conference-planning-1400.webp') . ' 1400w',
+        ],
+        'cards' => [
+            [
+                'image' => asset('images/pages/conferences/conference-strategy-1400.webp'),
+                'srcset' => asset('images/pages/conferences/conference-strategy-800.webp') . ' 800w, ' . asset('images/pages/conferences/conference-strategy-1400.webp') . ' 1400w',
+            ],
+            [
+                'image' => asset('images/pages/conferences/stage-technical-production-1400.webp'),
+                'srcset' => asset('images/pages/conferences/stage-technical-production-800.webp') . ' 800w, ' . asset('images/pages/conferences/stage-technical-production-1400.webp') . ' 1400w',
+            ],
+            [
+                'image' => asset('images/pages/conferences/guest-experience-1400.webp'),
+                'srcset' => asset('images/pages/conferences/guest-experience-800.webp') . ' 800w, ' . asset('images/pages/conferences/guest-experience-1400.webp') . ' 1400w',
+            ],
+        ],
+    ];
     $exhibitionsMedia = [
         'hero' => [
             asset('images/pages/exhibitions/exhibitions-hero-itw-reception.webp'),
@@ -102,16 +123,16 @@
     $serviceWorkCards = [];
     if ($isServiceFormatPage) {
         foreach ($serviceWorkCardContent[$pageSlug] ?? [] as $index => $card) {
-            $brandCardMedia = $pageSlug === 'brand-experiences'
+            $dedicatedCardMedia = $pageSlug === 'brand-experiences'
                 ? ($brandExperienceMedia['cards'][$index] ?? null)
-                : null;
+                : ($pageSlug === 'conferences' ? ($conferenceMedia['cards'][$index] ?? null) : null);
             $serviceWorkCards[] = [
                 'title' => $card['title'],
                 'text' => $card['text'],
-                'image' => is_array($brandCardMedia)
-                    ? $brandCardMedia['image']
+                'image' => is_array($dedicatedCardMedia)
+                    ? $dedicatedCardMedia['image']
                     : ($serviceImageCount > 0 ? $serviceImagePool[$index % $serviceImageCount] : ''),
-                'image_srcset' => is_array($brandCardMedia) ? $brandCardMedia['srcset'] : '',
+                'image_srcset' => is_array($dedicatedCardMedia) ? $dedicatedCardMedia['srcset'] : '',
             ];
         }
     }
@@ -136,6 +157,7 @@
         $pageDescription = preg_replace('/<h[1-6]\b[^>]*>(.*?)<\/h[1-6]>/is', '<p>$1</p>', $pageDescription) ?? $pageDescription;
         $pageDescription = preg_replace('/<\/?(?:strong|b)\b[^>]*>/i', '', $pageDescription) ?? $pageDescription;
     }
+    $exhibitionsIntroDescription = 'Peak Experience plans and produces exhibitions across Kenya, combining custom stand design, branded environments, lighting, AV, visitor flow, logistics, and dependable on-site delivery to help organisations attract attention, engage audiences, and build valuable business connections.';
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -165,6 +187,7 @@
         .hero__bg,.bg{position:absolute;top:0;left:0;width:100%;height:100%}
         .bg--embed{overflow:hidden}.u-bg-cover{background-size:cover;background-position:center 40%;background-repeat:no-repeat}
         .story-page main .hero__bg img,.story-page main .u-bg-cover img{display:block;width:100%;max-width:none;height:100%;object-fit:cover;margin:0;filter:saturate(.95) contrast(1.02)}
+        .conference-hero-video{position:absolute;top:50%;left:50%;width:max(100%,177.78vh);height:max(100%,56.25vw);border:0;transform:translate(-50%,-50%);pointer-events:none}
         .bg--opacity{background:#000}
         .block__padding{position:relative;z-index:2;width:100%;max-width:1200px;margin:0 auto;padding:90px 24px}
         .block__hero-height{min-height:inherit}.u-flex-column-middle{display:flex;flex-direction:column;align-items:center;justify-content:center}
@@ -183,8 +206,8 @@
         .block-head__eyebrow{display:block;margin:0 0 18px;text-transform:uppercase;font-size:13px;line-height:18px;font-weight:500;letter-spacing:.12em;color:#10808f}
         .block-head__title{margin:0 0 22px;color:#333;font-family:"GT Walsheim",Helvetica,Arial,sans-serif;font-size:44px;line-height:44px;font-weight:400;text-transform:uppercase}
         .b-intro .block-head__title{margin:0;color:#5a5557;font-size:clamp(36px,3.4vw,54px);line-height:1.08;font-weight:500;text-transform:none;text-wrap:balance}
-        .exhibitions-intro-media{display:block;margin-top:30px;overflow:hidden;border-radius:18px;aspect-ratio:4/3;background:#e8e8e8}
-        .story-page main .exhibitions-intro-media img{width:100%;height:100%;object-fit:cover}
+        .page-intro-media{display:block;margin-top:30px;overflow:hidden;border-radius:18px;aspect-ratio:4/3;background:#e8e8e8}
+        .story-page main .page-intro-media img{width:100%;height:100%;object-fit:cover}
         .exhibitions-hero-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;height:100%}
         .story-page main .exhibitions-hero-grid img{width:100%;height:100%;object-fit:cover}
         .story-page--exhibitions .b-intro .block-head__body,.story-page--exhibitions .b-intro .block-head__body *{font-weight:300!important}
@@ -272,7 +295,7 @@
         .story-page .whatsapp-widget-label,.story-page .whatsapp-widget-button{pointer-events:auto}
         .story-page .whatsapp-widget-button{display:inline-flex;align-items:center;justify-content:center;width:84px;height:84px;min-width:84px;min-height:84px;border-radius:50%}
         .story-page .whatsapp-widget-icon{display:block;width:35px;height:35px;max-width:35px;max-height:35px;flex:0 0 35px}
-        @media(max-width:899px){.b-intro .block-head,.service-work-head{grid-template-columns:1fr;gap:30px}.b-intro .block__padding{padding-top:76px;padding-bottom:36px}.gmasonry__wrap{grid-template-columns:repeat(2,minmax(0,1fr))}.service-work-grid{grid-template-columns:1fr}.service-work-card{min-height:360px}}
+        @media(max-width:899px){.b-intro .block-head,.service-work-head{grid-template-columns:1fr;gap:48px}.b-intro .block__padding{padding-top:76px;padding-bottom:36px}.gmasonry__wrap{grid-template-columns:repeat(2,minmax(0,1fr))}.service-work-grid{grid-template-columns:1fr}.service-work-card{min-height:360px}}
         @media(max-width:899px){.post-section__inner{grid-template-columns:1fr;gap:26px}.post-gallery__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
         @media(max-width:799px){.hero__body .hero__title{font-size:53px;line-height:50px}.hero__copy{font-size:24px;line-height:28px}.se-footer-columns{grid-template-columns:1fr}.body--section{width:100%;margin-bottom:34px}.block-head__title{font-size:38px;line-height:42px}.post-hero-intro{padding-top:86px}.post-hero-image img{border-radius:16px}}
         @media(max-width:599px){body.story-page{--page-image-gutter:14px;font-size:16px;line-height:24px}.hero{min-height:72vh;border-radius:12px}.hero__body .hero__title{font-size:40px;line-height:36px}.story-page--service-format .hero__body .hero__title{font-size:clamp(34px,10.5vw,44px);line-height:1;overflow-wrap:break-word}.hero__copy{font-size:21px;line-height:25px}.story-page--service-format .hero__copy{font-size:22px}.block__padding{padding:70px 18px}.b-intro .block-head__subtitle{font-size:23px;line-height:28px}.b-intro .block-head__body{font-size:17px;line-height:27px}.gmasonry__wrap,.post-gallery__grid{grid-template-columns:1fr}.b-gallery-masonry .block__padding{padding:0 var(--page-image-gutter) 70px}.gmasonry__item,.post-gallery__item{min-height:230px}.service-work-card{min-height:320px}.service-work-card__body{padding:22px}.post-section{padding:58px 20px}.post-section__copy{font-size:20px;line-height:1.5}}
@@ -448,7 +471,15 @@
             <section class="hero block block--dark block--has-bg">
                 <div class="hero__bg">
                     <div class="bg bg--embed">
-                        @if ($pageSlug === 'exhibitions')
+                        @if ($pageSlug === 'conferences')
+                            <iframe
+                                class="conference-hero-video"
+                                src="https://www.youtube-nocookie.com/embed/{{ $conferenceVideoId }}?autoplay=1&amp;mute=1&amp;controls=0&amp;loop=1&amp;playlist={{ $conferenceVideoId }}&amp;playsinline=1&amp;rel=0&amp;modestbranding=1"
+                                title="Peak Experience conference production showreel"
+                                allow="autoplay; encrypted-media; picture-in-picture"
+                                tabindex="-1"
+                            ></iframe>
+                        @elseif ($pageSlug === 'exhibitions')
                             <div class="bg exhibitions-hero-grid" aria-hidden="true">
                                 @foreach ($exhibitionsMedia['hero'] as $exhibitionsHeroImage)
                                     <img src="{{ $exhibitionsHeroImage }}" alt="">
@@ -492,8 +523,13 @@
                                 <span class="block-head__eyebrow">{{ $pageTypeLabel }}</span>
                             @endif
                             <h2 class="block-head__title">{{ $pageIntroHeading }}</h2>
-                            @if ($pageSlug === 'exhibitions')
-                                <picture class="exhibitions-intro-media">
+                            @if ($pageSlug === 'conferences')
+                                <picture class="page-intro-media">
+                                    <source srcset="{{ $conferenceMedia['planning']['srcset'] }}" sizes="(max-width: 899px) 100vw, 38vw" type="image/webp">
+                                    <img src="{{ $conferenceMedia['planning']['image'] }}" alt="Professionally produced conference stage in Nairobi, Kenya" loading="lazy">
+                                </picture>
+                            @elseif ($pageSlug === 'exhibitions')
+                                <picture class="page-intro-media">
                                     <source srcset="{{ $exhibitionsMedia['planning']['srcset'] }}" sizes="(max-width: 799px) 100vw, 38vw" type="image/webp">
                                     <img src="{{ $exhibitionsMedia['planning']['image'] }}" alt="Custom exhibition booth designed and built by Peak Experience" loading="lazy">
                                 </picture>
@@ -502,6 +538,9 @@
 
                         <div class="block-copy">
                             <div class="block-head__body u-no-margin-content">
+                                @if ($pageSlug === 'exhibitions')
+                                    <p>{{ $exhibitionsIntroDescription }}</p>
+                                @endif
                                 {!! $pageDescription !!}
                             </div>
 

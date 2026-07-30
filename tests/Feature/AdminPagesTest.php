@@ -352,6 +352,11 @@ class AdminPagesTest extends TestCase
         $conferenceResponse->assertSee('Giving big ideas the platform they deserve.');
         $conferenceResponse->assertSee('class="b-section service-work-section', false);
         $conferenceResponse->assertSee('Conference Strategy');
+        $conferenceResponse->assertSee('www.youtube-nocookie.com/embed/R6zD8bq1WWc', false);
+        $conferenceResponse->assertSee(asset('images/pages/conferences/conference-planning-1400.webp'), false);
+        $conferenceResponse->assertSee(asset('images/pages/conferences/conference-strategy-1400.webp'), false);
+        $conferenceResponse->assertSee(asset('images/pages/conferences/stage-technical-production-1400.webp'), false);
+        $conferenceResponse->assertSee(asset('images/pages/conferences/guest-experience-1400.webp'), false);
         $conferenceResponse->assertDontSee('<span class="hero__preheading">PAGE</span>', false);
         $conferenceResponse->assertDontSee('<span class="block-head__eyebrow">Page</span>', false);
 
@@ -379,6 +384,7 @@ class AdminPagesTest extends TestCase
         $exhibitionResponse->assertSee(asset('images/pages/exhibitions/exhibitions-hero-caterpillar.webp'), false);
         $exhibitionResponse->assertSee(asset('images/pages/exhibitions/exhibitions-planning-1200.webp'), false);
         $exhibitionResponse->assertSee('<meta name="description" content="Create standout exhibitions in Kenya with custom stands, visitor-focused layouts, branding, lighting, AV, logistics, and seamless on-site production.">', false);
+        $exhibitionResponse->assertSee('Peak Experience plans and produces exhibitions across Kenya');
         $exhibitionResponse->assertSee('<p>Exhibition content</p>', false);
         $exhibitionResponse->assertDontSee('<strong>Exhibition content</strong>', false);
         $exhibitionResponse->assertDontSee('<span class="hero__preheading">PAGE</span>', false);
