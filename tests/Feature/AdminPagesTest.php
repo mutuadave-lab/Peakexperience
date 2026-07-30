@@ -408,6 +408,16 @@ class AdminPagesTest extends TestCase
         $response->assertSee(route('pages.show', ['page' => 'faqs']), false);
         $response->assertDontSee('Our Stories');
         $response->assertDontSee('Meet the Team');
+
+        $careersResponse = $this->get(route('pages.show', ['page' => 'careers']));
+        $careersResponse->assertOk();
+        $careersResponse->assertSee(asset('images/pages/careers/careers-hero-1600.webp'), false);
+        $careersResponse->assertSee(asset('images/pages/careers/careers-intro-1600.webp'), false);
+        $careersResponse->assertSee(asset('images/pages/careers/careers-team-1600.webp'), false);
+        $careersResponse->assertSee(asset('images/pages/careers/careers-event-crew-1600.webp'), false);
+        $careersResponse->assertSee(asset('images/pages/careers/careers-production-1600.webp'), false);
+        $careersResponse->assertSee('srcset="' . asset('images/pages/careers/careers-hero-800.webp') . ' 800w,', false);
+        $careersResponse->assertDontSee('Enquire Now');
     }
 
     public function test_public_post_preview_renders_story_event_structure(): void
