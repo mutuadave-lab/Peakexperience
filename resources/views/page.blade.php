@@ -211,9 +211,8 @@
         .story-page--sustainability .b-intro .block-copy{justify-items:center}
         .story-page--sustainability .b-intro__buttons{text-align:center}
         .story-page--faqs .page-intro-media{aspect-ratio:16/9;margin-top:34px}
-        .faq-brand-mosaic{position:relative;min-height:clamp(320px,32vw,520px);margin-top:20px;overflow:hidden;border-radius:18px;background:#eceae6}
-        .faq-brand-mosaic::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 0 46%,rgba(16,128,143,.16) 46% 54%,transparent 54%),radial-gradient(circle at 26% 28%,rgba(16,128,143,.2) 0 12%,transparent 12.4%),radial-gradient(circle at 74% 72%,rgba(223,145,43,.2) 0 15%,transparent 15.4%),linear-gradient(45deg,rgba(32,38,51,.08) 25%,transparent 25% 75%,rgba(32,38,51,.08) 75%)}
-        .faq-brand-mosaic::after{content:"";position:absolute;inset:18% 16%;border:1px solid rgba(32,38,51,.12);border-radius:50%;box-shadow:0 0 0 48px rgba(255,255,255,.32),0 0 0 96px rgba(16,128,143,.06)}
+        .faq-secondary-media{display:block;min-height:clamp(320px,32vw,520px);margin-top:20px;overflow:hidden;border-radius:18px;background:#e8e8e8}
+        .story-page main .faq-secondary-media img{width:100%;height:100%;min-height:inherit;object-fit:cover}
         .bg--opacity{background:#000}
         .block__padding{position:relative;z-index:2;width:100%;max-width:1200px;margin:0 auto;padding:90px 24px}
         .block__hero-height{min-height:inherit}.u-flex-column-middle{display:flex;flex-direction:column;align-items:center;justify-content:center}
@@ -328,7 +327,7 @@
         @media(max-width:899px){.b-intro .block-head,.service-work-head{grid-template-columns:1fr;gap:48px}.b-intro .block__padding{padding-top:76px;padding-bottom:36px}.gmasonry__wrap{grid-template-columns:repeat(2,minmax(0,1fr))}.service-work-grid{grid-template-columns:1fr}.service-work-card{min-height:360px}}
         @media(max-width:899px){.post-section__inner{grid-template-columns:1fr;gap:26px}.post-gallery__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
         @media(max-width:799px){.hero__body .hero__title{font-size:53px;line-height:50px}.hero__copy{font-size:24px;line-height:28px}.se-footer-columns{grid-template-columns:1fr}.body--section{width:100%;margin-bottom:34px}.block-head__title{font-size:38px;line-height:42px}.post-hero-intro{padding-top:86px}.post-hero-image img{border-radius:16px}}
-        @media(max-width:599px){body.story-page{--page-image-gutter:14px;font-size:16px;line-height:24px}.hero{min-height:72vh;border-radius:12px}.hero__body .hero__title{font-size:40px;line-height:36px}.story-page--service-format .hero__body .hero__title{font-size:clamp(34px,10.5vw,44px);line-height:1;overflow-wrap:break-word}.hero__copy{font-size:21px;line-height:25px}.story-page--service-format .hero__copy{font-size:22px}.block__padding{padding:70px 18px}.b-intro .block-head__subtitle{font-size:23px;line-height:28px}.b-intro .block-head__body{font-size:17px;line-height:27px}.story-page--sustainability .b-intro .block-head__body{font-size:21px;line-height:1.5}.story-page--sustainability .b-intro .block-head__body h2{margin-top:58px}.faq-brand-mosaic{min-height:220px}.gmasonry__wrap,.post-gallery__grid{grid-template-columns:1fr}.b-gallery-masonry .block__padding{padding:0 var(--page-image-gutter) 70px}.gmasonry__item,.post-gallery__item{min-height:230px}.service-work-card{min-height:320px}.service-work-card__body{padding:22px}.post-section{padding:58px 20px}.post-section__copy{font-size:20px;line-height:1.5}}
+        @media(max-width:599px){body.story-page{--page-image-gutter:14px;font-size:16px;line-height:24px}.hero{min-height:72vh;border-radius:12px}.hero__body .hero__title{font-size:40px;line-height:36px}.story-page--service-format .hero__body .hero__title{font-size:clamp(34px,10.5vw,44px);line-height:1;overflow-wrap:break-word}.hero__copy{font-size:21px;line-height:25px}.story-page--service-format .hero__copy{font-size:22px}.block__padding{padding:70px 18px}.b-intro .block-head__subtitle{font-size:23px;line-height:28px}.b-intro .block-head__body{font-size:17px;line-height:27px}.story-page--sustainability .b-intro .block-head__body{font-size:21px;line-height:1.5}.story-page--sustainability .b-intro .block-head__body h2{margin-top:58px}.faq-secondary-media{min-height:220px}.gmasonry__wrap,.post-gallery__grid{grid-template-columns:1fr}.b-gallery-masonry .block__padding{padding:0 var(--page-image-gutter) 70px}.gmasonry__item,.post-gallery__item{min-height:230px}.service-work-card{min-height:320px}.service-work-card__body{padding:22px}.post-section{padding:58px 20px}.post-section__copy{font-size:20px;line-height:1.5}}
     </style>
 </head>
 <body id="top" class="story-page theme-se{{ $isServiceFormatPage ? ' story-page--service-format' : '' }}{{ in_array($pageSlug, ['exhibitions', 'sustainability', 'faqs'], true) ? ' story-page--'.$pageSlug : '' }}">
@@ -577,7 +576,13 @@
                                     >
                                 </picture>
                                 @if ($pageSlug === 'faqs')
-                                    <div class="faq-brand-mosaic" aria-hidden="true"></div>
+                                    <picture class="faq-secondary-media">
+                                        <img
+                                            src="{{ asset('images/pages/faqs/event-planning-secondary.webp') }}"
+                                            alt="Audience attending an ITW Africa keynote session produced by Peak Experience"
+                                            loading="lazy"
+                                        >
+                                    </picture>
                                 @endif
                             @elseif ($pageSlug === 'conferences')
                                 <picture class="page-intro-media">

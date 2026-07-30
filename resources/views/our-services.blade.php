@@ -99,10 +99,10 @@
         .services-cta-button{display:inline-flex;align-items:center;justify-content:space-between;width:272px;min-height:86px;border:0;border-radius:10px;padding:0 34px;background:#fff;color:#747678;font:600 16px/1 inherit;letter-spacing:.03em;text-decoration:none;text-transform:uppercase;cursor:pointer}
         .services-cta-button::after{content:"\2192";font-size:28px;font-weight:300}
         .services-cta-button:hover,.services-cta-button:focus-visible{background:#10808f;color:#fff}
-        .enquiry-modal{inset:0 0 0 auto;width:min(720px,50vw);max-width:none;height:100dvh;max-height:none;margin:0;border:0;border-radius:22px 0 0 22px;padding:0;background:#fff;color:#5f595b;overflow:hidden;transform:translateX(100%);transition:transform .6s cubic-bezier(.83,0,.17,1)}
+        .enquiry-modal{inset:0 0 0 auto;width:min(720px,50vw);max-width:none;height:100dvh;max-height:none;margin:0;border:1px solid rgba(95,89,91,.22);border-right-color:rgba(95,89,91,.12);border-radius:22px 0 0 22px;padding:0;background:#fff;color:#5f595b;overflow:hidden;box-shadow:-18px 0 55px rgba(0,0,0,.14),inset 0 0 0 1px rgba(255,255,255,.7);transform:translateX(100%);transition:transform .6s cubic-bezier(.83,0,.17,1)}
         .enquiry-modal.is-visible{transform:translateX(0)}
         .enquiry-modal::backdrop{background:rgba(255,255,255,.72);backdrop-filter:blur(2px)}
-        .enquiry-card{position:relative;width:100%;height:100%;margin:0;border:0;border-radius:22px 0 0 22px;padding:clamp(28px,3.4vw,48px);background:#fff;box-shadow:-18px 0 55px rgba(0,0,0,.14);overflow-y:auto}
+        .enquiry-card{position:relative;width:100%;height:100%;margin:0;border:0;border-radius:21px 0 0 21px;padding:clamp(28px,3.4vw,48px);background:#fff;overflow-y:auto}
         .enquiry-close{position:absolute;top:24px;right:24px;display:grid;width:48px;height:48px;border:0;border-radius:50%;place-items:center;background:#edf0f1;color:#5f595b;font:300 38px/1 Arial,sans-serif;cursor:pointer}
         .enquiry-close:hover,.enquiry-close:focus-visible{background:#10808f;color:#fff;outline:0}
         .enquiry-header{display:flex;justify-content:space-between;gap:32px;margin-bottom:28px;padding-right:48px}
