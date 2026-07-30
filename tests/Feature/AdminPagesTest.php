@@ -470,6 +470,7 @@ class AdminPagesTest extends TestCase
         $response->assertSee('A 400-person conference designed to empower and inspire employees.');
         $response->assertSee('class="post-hero-image"', false);
         $response->assertSee('class="post-gallery__grid"', false);
+        $response->assertSee('.story-page main .post-gallery__item img{display:block;width:100%;max-width:none;height:100%;object-fit:cover}', false);
         $response->assertSee('Brief');
         $response->assertSee('Delivery');
         $response->assertSee('We created a bold people-first event.');
