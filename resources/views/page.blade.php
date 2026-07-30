@@ -57,6 +57,10 @@
         $heroImageSrcset = $brandExperienceMedia['hero']['srcset'];
     }
     $conferenceVideoId = 'R6zD8bq1WWc';
+    $faqVideoId = 'tRyhMMpctwY';
+    $heroVideoId = $pageSlug === 'faqs' ? $faqVideoId : $conferenceVideoId;
+    $heroVideoStart = $pageSlug === 'faqs' ? 0 : 2;
+    $heroVideoEnd = $pageSlug === 'faqs' ? 36 : 84;
     $conferenceMedia = [
         'planning' => [
             'image' => asset('images/pages/conferences/conference-planning-1400.webp'),
@@ -194,6 +198,13 @@
         .bg--embed{overflow:hidden}.u-bg-cover{background-size:cover;background-position:center 40%;background-repeat:no-repeat}
         .story-page main .hero__bg img,.story-page main .u-bg-cover img{display:block;width:100%;max-width:none;height:100%;object-fit:cover;margin:0;filter:saturate(.95) contrast(1.02)}
         .conference-hero-video{position:absolute;top:50%;left:50%;width:max(100%,177.78vh);height:max(100%,56.25vw);border:0;transform:translate(-50%,-50%);pointer-events:none}
+        .story-page--sustainability .b-intro .block-head{display:block;max-width:900px;margin:0 auto}
+        .story-page--sustainability .b-intro .block-heading{margin-bottom:40px;text-align:center}
+        .story-page--sustainability .b-intro .block-head__body{font-size:clamp(19px,1.7vw,23px);line-height:1.6}
+        .story-page--sustainability .b-intro .block-head__body h2{margin:42px 0 16px;color:#5a5557;font-size:clamp(30px,3vw,44px);line-height:1.12;font-weight:500}
+        .story-page--sustainability .b-intro .block-copy{justify-items:center}
+        .story-page--sustainability .b-intro__buttons{text-align:center}
+        .story-page--faqs .page-intro-media{aspect-ratio:16/9;margin-top:34px}
         .bg--opacity{background:#000}
         .block__padding{position:relative;z-index:2;width:100%;max-width:1200px;margin:0 auto;padding:90px 24px}
         .block__hero-height{min-height:inherit}.u-flex-column-middle{display:flex;flex-direction:column;align-items:center;justify-content:center}
@@ -311,7 +322,7 @@
         @media(max-width:599px){body.story-page{--page-image-gutter:14px;font-size:16px;line-height:24px}.hero{min-height:72vh;border-radius:12px}.hero__body .hero__title{font-size:40px;line-height:36px}.story-page--service-format .hero__body .hero__title{font-size:clamp(34px,10.5vw,44px);line-height:1;overflow-wrap:break-word}.hero__copy{font-size:21px;line-height:25px}.story-page--service-format .hero__copy{font-size:22px}.block__padding{padding:70px 18px}.b-intro .block-head__subtitle{font-size:23px;line-height:28px}.b-intro .block-head__body{font-size:17px;line-height:27px}.gmasonry__wrap,.post-gallery__grid{grid-template-columns:1fr}.b-gallery-masonry .block__padding{padding:0 var(--page-image-gutter) 70px}.gmasonry__item,.post-gallery__item{min-height:230px}.service-work-card{min-height:320px}.service-work-card__body{padding:22px}.post-section{padding:58px 20px}.post-section__copy{font-size:20px;line-height:1.5}}
     </style>
 </head>
-<body id="top" class="story-page theme-se{{ $isServiceFormatPage ? ' story-page--service-format' : '' }}{{ $pageSlug === 'exhibitions' ? ' story-page--exhibitions' : '' }}">
+<body id="top" class="story-page theme-se{{ $isServiceFormatPage ? ' story-page--service-format' : '' }}{{ in_array($pageSlug, ['exhibitions', 'sustainability', 'faqs'], true) ? ' story-page--'.$pageSlug : '' }}">
     @include('partials.page-transition')
     <div class="page-shell">
         <header class="site-header">
@@ -493,11 +504,11 @@
             <section class="hero block block--dark block--has-bg">
                 <div class="hero__bg">
                     <div class="bg bg--embed">
-                        @if ($pageSlug === 'conferences')
+                        @if (in_array($pageSlug, ['conferences', 'faqs'], true))
                             <iframe
                                 class="conference-hero-video"
-                                src="https://www.youtube-nocookie.com/embed/{{ $conferenceVideoId }}?autoplay=1&amp;mute=1&amp;controls=0&amp;loop=1&amp;playlist={{ $conferenceVideoId }}&amp;start=2&amp;end=84&amp;playsinline=1&amp;rel=0&amp;modestbranding=1"
-                                title="Peak Experience conference production showreel"
+                                src="https://www.youtube-nocookie.com/embed/{{ $heroVideoId }}?autoplay=1&amp;mute=1&amp;controls=0&amp;loop=1&amp;playlist={{ $heroVideoId }}&amp;start={{ $heroVideoStart }}&amp;end={{ $heroVideoEnd }}&amp;playsinline=1&amp;rel=0&amp;modestbranding=1"
+                                title="{{ $pageSlug === 'faqs' ? 'Peak Experience event production video' : 'Peak Experience conference production showreel' }}"
                                 allow="autoplay; encrypted-media; picture-in-picture"
                                 tabindex="-1"
                             ></iframe>
@@ -516,7 +527,7 @@
                                 >
                             </div>
                         @endif
-                        <div class="bg bg--opacity" style="opacity:0.25"></div>
+                        <div class="bg bg--opacity" style="opacity:{{ $pageSlug === 'equality-diversity-inclusion' ? '0.52' : '0.25' }}"></div>
                     </div>
                 </div>
 
@@ -545,14 +556,14 @@
                                 <span class="block-head__eyebrow">{{ $pageTypeLabel }}</span>
                             @endif
                             <h2 class="block-head__title">{{ $pageIntroHeading }}</h2>
-                            @if (in_array($pageSlug, ['careers', 'equality-diversity-inclusion'], true) && $introPageImage !== '')
+                            @if (in_array($pageSlug, ['careers', 'equality-diversity-inclusion', 'faqs'], true) && $introPageImage !== '')
                                 <picture class="page-intro-media">
                                     @if ($introPageImageSrcset !== '')
                                         <source srcset="{{ $introPageImageSrcset }}" sizes="(max-width: 899px) 100vw, 38vw" type="image/webp">
                                     @endif
                                     <img
                                         src="{{ $introPageImage }}"
-                                        alt="{{ $pageSlug === 'careers' ? 'Peak Experience technicians preparing event production equipment in Kenya' : 'Guests connecting at an inclusive business event in Nairobi, Kenya' }}"
+                                        alt="{{ $pageSlug === 'careers' ? 'Peak Experience technicians preparing event production equipment in Kenya' : ($pageSlug === 'faqs' ? 'Audience attending a conference produced by Peak Experience' : 'Guests connecting at an inclusive business event in Nairobi, Kenya') }}"
                                         loading="lazy"
                                     >
                                 </picture>
