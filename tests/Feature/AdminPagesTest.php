@@ -375,7 +375,8 @@ class AdminPagesTest extends TestCase
         $exhibitionResponse->assertOk();
         $exhibitionResponse->assertSee('<body id="top" class="story-page theme-se story-page--exhibitions">', false);
         $exhibitionResponse->assertDontSee('<body id="top" class="story-page theme-se story-page--service-format">', false);
-        $exhibitionResponse->assertSee(asset('images/pages/exhibitions/exhibitions-hero-1200.webp'), false);
+        $exhibitionResponse->assertSee(asset('images/pages/exhibitions/exhibitions-hero-itw-reception.webp'), false);
+        $exhibitionResponse->assertSee(asset('images/pages/exhibitions/exhibitions-hero-caterpillar.webp'), false);
         $exhibitionResponse->assertSee(asset('images/pages/exhibitions/exhibitions-planning-1200.webp'), false);
         $exhibitionResponse->assertSee('<meta name="description" content="Create standout exhibitions in Kenya with custom stands, visitor-focused layouts, branding, lighting, AV, logistics, and seamless on-site production.">', false);
         $exhibitionResponse->assertSee('<p>Exhibition content</p>', false);

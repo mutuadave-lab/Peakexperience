@@ -48,7 +48,7 @@
                         <div class="admin-alert-error mt-4">{{ $errors->first() }}</div>
                     @endif
 
-                    <form method="POST" action="{{ route('admin.login.submit') }}" class="mt-8 space-y-5">
+                    <form method="POST" action="{{ route('admin.login.submit') }}" class="mt-8 space-y-5" autocomplete="off">
                         @csrf
 
                         <div>
@@ -57,10 +57,10 @@
                                 id="username"
                                 type="text"
                                 name="username"
-                                value="{{ old('username') }}"
+                                value=""
                                 required
                                 autofocus
-                                autocomplete="username"
+                                autocomplete="off"
                                 class="admin-input"
                             >
                         </div>
@@ -72,21 +72,13 @@
                                 type="password"
                                 name="password"
                                 required
-                                autocomplete="current-password"
+                                autocomplete="new-password"
                                 class="admin-input"
                             >
                         </div>
 
                         <button class="admin-btn-primary w-full" type="submit">Open Dashboard</button>
                     </form>
-
-                    <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-600">
-                        <p class="font-semibold text-slate-950">Demo credentials</p>
-                        <p class="mt-2">
-                            <strong>Username:</strong> admin<br>
-                            <strong>Password:</strong> admin123
-                        </p>
-                    </div>
 
                     <a href="{{ url('/') }}" class="mt-6 inline-flex items-center text-sm font-semibold text-slate-600 transition hover:text-amber-600">
                         Back to homepage
