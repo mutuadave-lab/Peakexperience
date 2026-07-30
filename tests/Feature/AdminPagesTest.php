@@ -353,6 +353,7 @@ class AdminPagesTest extends TestCase
         $conferenceResponse->assertSee('class="b-section service-work-section', false);
         $conferenceResponse->assertSee('Conference Strategy');
         $conferenceResponse->assertSee('www.youtube-nocookie.com/embed/R6zD8bq1WWc', false);
+        $conferenceResponse->assertSee('start=2&amp;end=84', false);
         $conferenceResponse->assertSee(asset('images/pages/conferences/conference-planning-1400.webp'), false);
         $conferenceResponse->assertSee(asset('images/pages/conferences/conference-strategy-1400.webp'), false);
         $conferenceResponse->assertSee(asset('images/pages/conferences/stage-technical-production-1400.webp'), false);
@@ -390,6 +391,23 @@ class AdminPagesTest extends TestCase
         $exhibitionResponse->assertDontSee('<strong>Exhibition content</strong>', false);
         $exhibitionResponse->assertDontSee('<span class="hero__preheading">PAGE</span>', false);
         $exhibitionResponse->assertDontSee('<span class="block-head__eyebrow">Page</span>', false);
+    }
+
+    public function test_about_navigation_uses_curated_kenya_pages_without_our_stories_or_team_page(): void
+    {
+        $response = $this->get(route('pages.show', ['page' => 'faqs']));
+
+        $response->assertOk();
+        $response->assertSee('<title>Event Planning FAQs Kenya | Peak Experience</title>', false);
+        $response->assertSee('Where do you operate?');
+        $response->assertSee('locally within Kenya');
+        $response->assertSee(asset('images/pages/conferences/conference-planning-1400.webp'), false);
+        $response->assertSee(route('pages.show', ['page' => 'careers']), false);
+        $response->assertSee(route('pages.show', ['page' => 'equality-diversity-inclusion']), false);
+        $response->assertSee(route('pages.show', ['page' => 'sustainability']), false);
+        $response->assertSee(route('pages.show', ['page' => 'faqs']), false);
+        $response->assertDontSee('Our Stories');
+        $response->assertDontSee('Meet the Team');
     }
 
     public function test_public_post_preview_renders_story_event_structure(): void

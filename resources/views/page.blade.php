@@ -10,6 +10,7 @@
         ['slug' => 'brand-experiences', 'title' => 'Brand Experience'],
         ['slug' => 'exhibitions', 'title' => 'Exhibitions'],
     ];
+    $aboutPages = \App\Support\AboutPageContent::navigation();
     $logoUrl = \App\Support\HomepageContent::assetUrl(
         (string) data_get($logo ?? [], 'path', data_get($logo ?? [], 'url', ''))
     );
@@ -339,8 +340,14 @@
                         </li>
                         <li><a href="{{ route('our-work') }}">Our Work</a></li>
                         <li><a href="{{ route('our-services') }}">Our Services</a></li>
-                        <li><a href="{{ route('home') }}#process">Our Stories</a></li>
-                        <li><a href="{{ route('home') }}#intro">About Us</a></li>
+                        <li class="nav-item--dropdown">
+                            <a class="nav-link--caret" href="{{ route('home') }}#intro">About Us</a>
+                            <ul class="nav-dropdown" aria-label="About Us pages">
+                                @foreach ($aboutPages as $aboutPage)
+                                    <li><a href="{{ route('pages.show', ['page' => $aboutPage['slug']]) }}">{{ $aboutPage['title'] }}</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
 
@@ -374,8 +381,14 @@
                             </li>
                             <li><a href="{{ route('our-work') }}">Our Work</a></li>
                             <li><a href="{{ route('our-services') }}">Our Services</a></li>
-                            <li><a href="{{ route('home') }}#process">Our Stories</a></li>
-                            <li><a href="{{ route('home') }}#intro">About Us</a></li>
+                            <li>
+                                <a href="{{ route('home') }}#intro">About Us</a>
+                                <ul class="nav-mobile-children" aria-label="About Us pages">
+                                    @foreach ($aboutPages as $aboutPage)
+                                        <li><a href="{{ route('pages.show', ['page' => $aboutPage['slug']]) }}">{{ $aboutPage['title'] }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </li>
                             <li><a href="{{ route('home') }}#contact">Contact Us</a></li>
                         </ul>
                     </nav>
@@ -477,7 +490,7 @@
                         @if ($pageSlug === 'conferences')
                             <iframe
                                 class="conference-hero-video"
-                                src="https://www.youtube-nocookie.com/embed/{{ $conferenceVideoId }}?autoplay=1&amp;mute=1&amp;controls=0&amp;loop=1&amp;playlist={{ $conferenceVideoId }}&amp;playsinline=1&amp;rel=0&amp;modestbranding=1"
+                                src="https://www.youtube-nocookie.com/embed/{{ $conferenceVideoId }}?autoplay=1&amp;mute=1&amp;controls=0&amp;loop=1&amp;playlist={{ $conferenceVideoId }}&amp;start=2&amp;end=84&amp;playsinline=1&amp;rel=0&amp;modestbranding=1"
                                 title="Peak Experience conference production showreel"
                                 allow="autoplay; encrypted-media; picture-in-picture"
                                 tabindex="-1"

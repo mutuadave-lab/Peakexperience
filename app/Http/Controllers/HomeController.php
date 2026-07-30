@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactInquiryMail;
+use App\Support\AboutPageContent;
 use App\Support\CaseStudyContent;
 use App\Support\HomepageContent;
 use App\Support\PageContent;
@@ -80,7 +81,7 @@ class HomeController extends Controller
     public function page(string $page): View
     {
         $content = HomepageContent::load();
-        $pageItem = PageContent::findBySlug($page);
+        $pageItem = AboutPageContent::findBySlug($page) ?? PageContent::findBySlug($page);
 
         abort_unless(is_array($pageItem), 404);
 
