@@ -252,7 +252,7 @@
         .b-intro__buttons{margin-top:34px;text-align:left}.b-gallery-masonry{padding:0;background:#fff}
         .b-gallery-masonry .block__padding{max-width:none;padding:0 var(--page-image-gutter) 96px}
         .gmasonry__wrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;margin:0 auto;padding:0}
-        .gmasonry__item{position:relative;overflow:hidden;min-height:clamp(260px,23vw,430px);border-radius:9px;background:#ddd}
+        .gmasonry__item{position:relative;overflow:hidden;height:clamp(260px,23vw,430px);min-height:0;border-radius:9px;background:#ddd}
         .gmasonry__item > div{height:100%}
         .story-page main .gmasonry__item img{width:100%;height:100%;object-fit:cover;margin:0}
         .gmasonry__download{display:none}
@@ -298,8 +298,8 @@
         .post-section__copy p:last-child{margin-bottom:0}
         .post-gallery{padding:0 var(--page-image-gutter) 86px;background:#fff}
         .post-gallery__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-        .post-gallery__item{overflow:hidden;min-height:clamp(260px,24vw,430px);border-radius:9px;background:#ddd}
-        .post-gallery__item img{width:100%;height:100%;object-fit:cover}
+        .post-gallery__item{overflow:hidden;height:clamp(260px,24vw,430px);min-height:0;border-radius:9px;background:#ddd}
+        .post-gallery__item img{display:block;width:100%;height:100%;object-fit:cover}
         .block-head__prefix{margin:0 0 12px;text-transform:uppercase;font-size:14px;line-height:18px;font-weight:500;letter-spacing:.08em;color:#10808f}
         .block--dark .block-head__prefix{color:#fff}
         .block--dark .block-head__title,.block--dark .block-head__subtitle{color:#fff}
@@ -687,14 +687,7 @@
                     @endif
                 </div>
 
-                <nav class="se-footer-social" aria-label="Social links">
-                    @foreach ($socialLinks as $socialLink)
-                        <a href="{{ $socialLink['url'] }}" target="_blank" rel="noreferrer">{{ $socialLink['label'] }}</a>
-                    @endforeach
-                    @if ($hasWhatsapp)
-                        <a href="{{ $whatsappUrl }}" target="_blank" rel="noreferrer">WhatsApp</a>
-                    @endif
-                </nav>
+                @include('partials.social-icon-links')
 
                 <div class="se-footer-contact">
                     @if ($hasContactEmail)

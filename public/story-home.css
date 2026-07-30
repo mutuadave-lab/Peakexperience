@@ -3127,6 +3127,42 @@ body.page-leaving .page-transition__content {
     line-height: 18px;
 }
 
+.se-footer-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    color: #ffffff;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.se-footer-social a:hover,
+.se-footer-social a:focus-visible {
+    color: #ffffff;
+    opacity: 0.78;
+    transform: translateY(-2px);
+}
+
+.se-social-icon {
+    display: block;
+    width: 26px;
+    height: 26px;
+    fill: currentColor;
+}
+
+.se-social-icon--stroke {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+}
+
+.se-social-icon--stroke .se-social-icon__dot {
+    fill: currentColor;
+    stroke: none;
+}
+
 .se-footer-group {
     background: #f4f4f4;
     color: #333333;
