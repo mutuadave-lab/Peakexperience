@@ -148,7 +148,7 @@
                 </nav>
 
                 <div class="header-utility">
-                    <a class="button button-nav-cta" href="#contact">Contact Us</a>
+                    <a class="button button-nav-cta" href="{{ route('our-services') }}#event-enquiry-dialog">Contact Us</a>
                 </div>
 
                 <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" data-nav-toggle>
@@ -185,7 +185,7 @@
                                     @endforeach
                                 </ul>
                             </li>
-                            <li><a href="#contact">Contact Us</a></li>
+                            <li><a href="{{ route('our-services') }}#event-enquiry-dialog">Contact Us</a></li>
                         </ul>
                     </nav>
 
