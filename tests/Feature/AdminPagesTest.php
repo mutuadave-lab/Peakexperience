@@ -404,7 +404,8 @@ class AdminPagesTest extends TestCase
         $response->assertSee('youtube-nocookie.com/embed/tRyhMMpctwY', false);
         $response->assertSee('end=36', false);
         $response->assertSee(asset('images/pages/faqs/event-planning.webp'), false);
-        $response->assertSee('class="faq-brand-mosaic"', false);
+        $response->assertSee('class="faq-secondary-media"', false);
+        $response->assertSee(asset('images/pages/faqs/event-planning-secondary.webp'), false);
         $response->assertSee(route('our-services') . '#event-enquiry-dialog', false);
         $response->assertSee(route('pages.show', ['page' => 'careers']), false);
         $response->assertSee(route('pages.show', ['page' => 'equality-diversity-inclusion']), false);
