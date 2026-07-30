@@ -215,6 +215,9 @@
         .b-intro .block-head__subtitle{margin:0 0 34px;color:#6a6365;font-size:clamp(26px,2.15vw,36px);line-height:1.3;text-wrap:balance}
         .block-head__body{color:#333;font-size:18px;line-height:30px}
         .b-intro .block-head__body{color:#5f595b;font-size:20px;line-height:32px}
+        .story-page--service-format .b-intro .block-head__body h1,
+        .story-page--service-format .b-intro .block-head__body h2,
+        .story-page--service-format .b-intro .block-head__body h3{margin:0 0 18px}
         .block-head__body p{margin:0 0 18px}
         .block-head__body p:last-child{margin-bottom:0}
         .block-copy{display:grid;justify-items:start}
@@ -552,7 +555,7 @@
                 </div>
             </section>
 
-            @if (count($galleryImages) > 0)
+            @if (count($galleryImages) > 0 && $pageSlug !== 'conferences')
                 <section class="b-gallery-masonry block block--light">
                     <div class="block__padding js-gmasonry">
                         <div class="gmasonry__wrap">

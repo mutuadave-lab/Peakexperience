@@ -357,6 +357,7 @@ class AdminPagesTest extends TestCase
         $conferenceResponse->assertSee(asset('images/pages/conferences/conference-strategy-1400.webp'), false);
         $conferenceResponse->assertSee(asset('images/pages/conferences/stage-technical-production-1400.webp'), false);
         $conferenceResponse->assertSee(asset('images/pages/conferences/guest-experience-1400.webp'), false);
+        $conferenceResponse->assertDontSee('class="b-gallery-masonry', false);
         $conferenceResponse->assertDontSee('<span class="hero__preheading">PAGE</span>', false);
         $conferenceResponse->assertDontSee('<span class="block-head__eyebrow">Page</span>', false);
 
