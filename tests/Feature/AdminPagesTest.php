@@ -401,7 +401,9 @@ class AdminPagesTest extends TestCase
         $response->assertSee('<title>Event Planning FAQs Kenya | Peak Experience</title>', false);
         $response->assertSee('Where do you operate?');
         $response->assertSee('locally within Kenya');
-        $response->assertSee(asset('images/pages/conferences/conference-planning-1400.webp'), false);
+        $response->assertSee('youtube-nocookie.com/embed/tRyhMMpctwY', false);
+        $response->assertSee('end=36', false);
+        $response->assertSee(asset('images/pages/faqs/event-planning.webp'), false);
         $response->assertSee(route('pages.show', ['page' => 'careers']), false);
         $response->assertSee(route('pages.show', ['page' => 'equality-diversity-inclusion']), false);
         $response->assertSee(route('pages.show', ['page' => 'sustainability']), false);
