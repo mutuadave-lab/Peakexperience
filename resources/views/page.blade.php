@@ -52,8 +52,8 @@
     }
     $exhibitionsMedia = [
         'hero' => [
-            'image' => asset('images/pages/exhibitions/exhibitions-hero-1200.webp'),
-            'srcset' => asset('images/pages/exhibitions/exhibitions-hero-800.webp') . ' 800w, ' . asset('images/pages/exhibitions/exhibitions-hero-1200.webp') . ' 1200w',
+            asset('images/pages/exhibitions/exhibitions-hero-itw-reception.webp'),
+            asset('images/pages/exhibitions/exhibitions-hero-caterpillar.webp'),
         ],
         'planning' => [
             'image' => asset('images/pages/exhibitions/exhibitions-planning-1200.webp'),
@@ -61,8 +61,8 @@
         ],
     ];
     if ($pageSlug === 'exhibitions') {
-        $heroImage = $exhibitionsMedia['hero']['image'];
-        $heroImageSrcset = $exhibitionsMedia['hero']['srcset'];
+        $heroImage = $exhibitionsMedia['hero'][0];
+        $heroImageSrcset = '';
     }
     $pageType = trim((string) ($page['type'] ?? ''));
     $pageTypeLabel = strcasecmp($pageType, 'Page') === 0 ? '' : $pageType;
@@ -184,7 +184,9 @@
         .block-head__title{margin:0 0 22px;color:#333;font-family:"GT Walsheim",Helvetica,Arial,sans-serif;font-size:44px;line-height:44px;font-weight:400;text-transform:uppercase}
         .b-intro .block-head__title{margin:0;color:#5a5557;font-size:clamp(36px,3.4vw,54px);line-height:1.08;font-weight:500;text-transform:none;text-wrap:balance}
         .exhibitions-intro-media{display:block;margin-top:30px;overflow:hidden;border-radius:18px;aspect-ratio:4/3;background:#e8e8e8}
-        .exhibitions-intro-media img{width:100%;height:100%;object-fit:cover}
+        .story-page main .exhibitions-intro-media img{width:100%;height:100%;object-fit:cover}
+        .exhibitions-hero-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;height:100%}
+        .story-page main .exhibitions-hero-grid img{width:100%;height:100%;object-fit:cover}
         .story-page--exhibitions .b-intro .block-head__body,.story-page--exhibitions .b-intro .block-head__body *{font-weight:300!important}
         .block-head__subtitle{margin:0 auto 28px;color:#333;font-size:27px;line-height:32px;font-weight:300}
         .b-intro .block-head__subtitle{margin:0 0 34px;color:#6a6365;font-size:clamp(26px,2.15vw,36px);line-height:1.3;text-wrap:balance}
@@ -446,7 +448,13 @@
             <section class="hero block block--dark block--has-bg">
                 <div class="hero__bg">
                     <div class="bg bg--embed">
-                        @if ($heroImage !== '')
+                        @if ($pageSlug === 'exhibitions')
+                            <div class="bg exhibitions-hero-grid" aria-hidden="true">
+                                @foreach ($exhibitionsMedia['hero'] as $exhibitionsHeroImage)
+                                    <img src="{{ $exhibitionsHeroImage }}" alt="">
+                                @endforeach
+                            </div>
+                        @elseif ($heroImage !== '')
                             <div class="bg u-bg-cover">
                                 <img
                                     src="{{ $heroImage }}"
