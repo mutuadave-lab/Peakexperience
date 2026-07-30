@@ -49,7 +49,7 @@
         .work-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
         .work-card{overflow:hidden;border-radius:8px;background:#fff;color:#202633;text-decoration:none;box-shadow:0 18px 45px rgba(32,38,51,.08)}
         .work-card-media{aspect-ratio:4/3;background:#d9d9d9}
-        .work-card-media img{width:100%;height:100%;object-fit:cover}
+        .work-card-media img{display:block;width:100%;height:100%;object-fit:cover}
         .work-card-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:#8b929c;font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
         .work-card-body{padding:24px}
         .work-card-body h2{margin:0;color:#202633;font-size:clamp(23px,2vw,32px);line-height:1.05}
@@ -218,14 +218,7 @@
                         @endif
                     </div>
 
-                    <nav class="se-footer-social" aria-label="Social links">
-                        @foreach ($socialLinks as $socialLink)
-                            <a href="{{ $socialLink['url'] }}" target="_blank" rel="noreferrer">{{ $socialLink['label'] }}</a>
-                        @endforeach
-                        @if ($hasWhatsapp)
-                            <a href="{{ $whatsappUrl }}" target="_blank" rel="noreferrer">WhatsApp</a>
-                        @endif
-                    </nav>
+                    @include('partials.social-icon-links')
 
                     <div class="se-footer-contact">
                         @if ($hasContactEmail)

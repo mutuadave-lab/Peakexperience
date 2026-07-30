@@ -396,14 +396,7 @@
                         @endif
                     </div>
 
-                    <nav class="se-footer-social" aria-label="Social links">
-                        @foreach ($socialLinks as $socialLink)
-                            <a href="{{ $socialLink['url'] }}" target="_blank" rel="noreferrer">{{ $socialLink['label'] }}</a>
-                        @endforeach
-                        @if ($hasWhatsapp)
-                            <a href="{{ $whatsappUrl }}" target="_blank" rel="noreferrer">WhatsApp</a>
-                        @endif
-                    </nav>
+                    @include('partials.social-icon-links')
 
                     <div class="se-footer-contact">
                         @if ($hasContactEmail)
