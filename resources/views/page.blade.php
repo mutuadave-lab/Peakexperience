@@ -234,6 +234,7 @@
         .b-gallery-masonry .block__padding{max-width:none;padding:0 var(--page-image-gutter) 96px}
         .gmasonry__wrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;margin:0 auto;padding:0}
         .gmasonry__item{position:relative;overflow:hidden;min-height:clamp(260px,23vw,430px);border-radius:9px;background:#ddd}
+        .gmasonry__item > div{height:100%}
         .story-page main .gmasonry__item img{width:100%;height:100%;object-fit:cover;margin:0}
         .gmasonry__download{display:none}
         .b-section.block--dark{background:#7a7e81;color:#fff}
@@ -544,12 +545,16 @@
                                 <span class="block-head__eyebrow">{{ $pageTypeLabel }}</span>
                             @endif
                             <h2 class="block-head__title">{{ $pageIntroHeading }}</h2>
-                            @if ($pageSlug === 'careers' && $introPageImage !== '')
+                            @if (in_array($pageSlug, ['careers', 'equality-diversity-inclusion'], true) && $introPageImage !== '')
                                 <picture class="page-intro-media">
                                     @if ($introPageImageSrcset !== '')
                                         <source srcset="{{ $introPageImageSrcset }}" sizes="(max-width: 899px) 100vw, 38vw" type="image/webp">
                                     @endif
-                                    <img src="{{ $introPageImage }}" alt="Peak Experience technicians preparing event production equipment in Kenya" loading="lazy">
+                                    <img
+                                        src="{{ $introPageImage }}"
+                                        alt="{{ $pageSlug === 'careers' ? 'Peak Experience technicians preparing event production equipment in Kenya' : 'Guests connecting at an inclusive business event in Nairobi, Kenya' }}"
+                                        loading="lazy"
+                                    >
                                 </picture>
                             @elseif ($pageSlug === 'conferences')
                                 <picture class="page-intro-media">

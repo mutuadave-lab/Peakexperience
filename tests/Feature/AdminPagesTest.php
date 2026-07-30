@@ -418,6 +418,14 @@ class AdminPagesTest extends TestCase
         $careersResponse->assertSee(asset('images/pages/careers/careers-production-1600.webp'), false);
         $careersResponse->assertSee('srcset="' . asset('images/pages/careers/careers-hero-800.webp') . ' 800w,', false);
         $careersResponse->assertDontSee('Enquire Now');
+
+        $inclusionResponse = $this->get(route('pages.show', ['page' => 'equality-diversity-inclusion']));
+        $inclusionResponse->assertOk();
+        $inclusionResponse->assertSee(asset('images/pages/inclusion/inclusion-hero-1600.webp'), false);
+        $inclusionResponse->assertSee(asset('images/pages/inclusion/inclusion-intro-1600.webp'), false);
+        $inclusionResponse->assertSee(asset('images/pages/inclusion/inclusion-conference-1600.webp'), false);
+        $inclusionResponse->assertSee('srcset="' . asset('images/pages/inclusion/inclusion-hero-800.webp') . ' 800w,', false);
+        $inclusionResponse->assertSee('.gmasonry__item > div{height:100%}', false);
     }
 
     public function test_public_post_preview_renders_story_event_structure(): void
