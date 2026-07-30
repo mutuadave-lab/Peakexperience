@@ -20,11 +20,16 @@
     $fallbackIntro = \App\Support\HomepageContent::assetUrl((string) data_get($sectionImages ?? [], 'intro.path', ''));
     $fallbackProof = \App\Support\HomepageContent::assetUrl((string) data_get($sectionImages ?? [], 'proof.path', ''));
     $heroImage = $pageImage !== '' ? $pageImage : ($fallbackHero !== '' ? $fallbackHero : $fallbackIntro);
-    $heroImageSrcset = '';
+    $heroImageSrcset = trim((string) ($page['image_srcset'] ?? ''));
     $galleryImages = array_values(array_filter(array_map(
         fn ($image) => \App\Support\HomepageContent::assetUrl((string) $image),
         is_array($page['gallery_images'] ?? null) ? $page['gallery_images'] : []
     )));
+    $galleryImageSrcsets = is_array($page['gallery_image_srcsets'] ?? null)
+        ? array_values($page['gallery_image_srcsets'])
+        : [];
+    $introPageImage = \App\Support\HomepageContent::assetUrl((string) ($page['intro_image'] ?? ''));
+    $introPageImageSrcset = trim((string) ($page['intro_image_srcset'] ?? ''));
     $routePageSlug = request()->route('page');
     $pageSlug = trim((string) ($page['slug'] ?? (is_string($routePageSlug) ? $routePageSlug : '')));
     $brandExperienceMedia = [
@@ -229,7 +234,7 @@
         .b-gallery-masonry .block__padding{max-width:none;padding:0 var(--page-image-gutter) 96px}
         .gmasonry__wrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;margin:0 auto;padding:0}
         .gmasonry__item{position:relative;overflow:hidden;min-height:clamp(260px,23vw,430px);border-radius:9px;background:#ddd}
-        .gmasonry__item img{width:100%;height:100%;object-fit:cover;margin:0}
+        .story-page main .gmasonry__item img{width:100%;height:100%;object-fit:cover;margin:0}
         .gmasonry__download{display:none}
         .b-section.block--dark{background:#7a7e81;color:#fff}
         .b-section .block__padding{padding-top:96px;padding-bottom:96px;text-align:center}
@@ -539,7 +544,14 @@
                                 <span class="block-head__eyebrow">{{ $pageTypeLabel }}</span>
                             @endif
                             <h2 class="block-head__title">{{ $pageIntroHeading }}</h2>
-                            @if ($pageSlug === 'conferences')
+                            @if ($pageSlug === 'careers' && $introPageImage !== '')
+                                <picture class="page-intro-media">
+                                    @if ($introPageImageSrcset !== '')
+                                        <source srcset="{{ $introPageImageSrcset }}" sizes="(max-width: 899px) 100vw, 38vw" type="image/webp">
+                                    @endif
+                                    <img src="{{ $introPageImage }}" alt="Peak Experience technicians preparing event production equipment in Kenya" loading="lazy">
+                                </picture>
+                            @elseif ($pageSlug === 'conferences')
                                 <picture class="page-intro-media">
                                     <source srcset="{{ $conferenceMedia['planning']['srcset'] }}" sizes="(max-width: 899px) 100vw, 38vw" type="image/webp">
                                     <img src="{{ $conferenceMedia['planning']['image'] }}" alt="Professionally produced conference stage in Nairobi, Kenya" loading="lazy">
@@ -560,9 +572,11 @@
                                 {!! $pageDescription !!}
                             </div>
 
-                            <div class="block-cta u-text-center b-intro__buttons">
-                                <a class="btn btn-centred" href="{{ route('home') }}#contact">Enquire Now</a>
-                            </div>
+                            @if ($pageSlug !== 'careers')
+                                <div class="block-cta u-text-center b-intro__buttons">
+                                    <a class="btn btn-centred" href="{{ route('home') }}#contact">Enquire Now</a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -575,7 +589,12 @@
                         @foreach ($galleryImages as $index => $image)
                             <div class="gmasonry__item col col-sm-6 col-lg-4 col--gmasonry">
                                 <div data-gmasonry-slide="{{ $index }}" data-gmasonry-filters="false">
-                                    <img src="{{ $image }}" alt="{{ $page['image_alt'] !== '' ? $page['image_alt'] : $page['title'] }}">
+                                    <img
+                                        src="{{ $image }}"
+                                        @if (($galleryImageSrcsets[$index] ?? '') !== '') srcset="{{ $galleryImageSrcsets[$index] }}" sizes="(max-width: 599px) 100vw, (max-width: 899px) 50vw, 33vw" @endif
+                                        alt="{{ $page['image_alt'] !== '' ? $page['image_alt'] : $page['title'] }}"
+                                        loading="lazy"
+                                    >
                                 </div>
                                 <a class="gmasonry__download" href="{{ $image }}" download>Download</a>
                             </div>
