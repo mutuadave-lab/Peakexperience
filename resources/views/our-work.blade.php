@@ -10,6 +10,7 @@
         ['slug' => 'brand-experiences', 'title' => 'Brand Experience'],
         ['slug' => 'exhibitions', 'title' => 'Exhibitions'],
     ];
+    $aboutPages = \App\Support\AboutPageContent::navigation();
     $caseStudyCategories = ['Conferences', 'Brand Experience', 'Exhibitions', 'Award Nights', 'Hybrid Events', 'Roadshows', 'Outdoor Builds'];
     $logoUrl = \App\Support\HomepageContent::assetUrl(
         (string) data_get($logo ?? [], 'path', data_get($logo ?? [], 'url', ''))
@@ -93,8 +94,14 @@
                         </li>
                         <li><a href="{{ route('our-work') }}">Our Work</a></li>
                         <li><a href="{{ route('our-services') }}">Our Services</a></li>
-                        <li><a href="{{ route('home') }}#process">Our Stories</a></li>
-                        <li><a href="{{ route('home') }}#intro">About Us</a></li>
+                        <li class="nav-item--dropdown">
+                            <a class="nav-link--caret" href="{{ route('home') }}#intro">About Us</a>
+                            <ul class="nav-dropdown" aria-label="About Us pages">
+                                @foreach ($aboutPages as $aboutPage)
+                                    <li><a href="{{ route('pages.show', ['page' => $aboutPage['slug']]) }}">{{ $aboutPage['title'] }}</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
 
@@ -128,8 +135,14 @@
                             </li>
                             <li><a href="{{ route('our-work') }}">Our Work</a></li>
                             <li><a href="{{ route('our-services') }}">Our Services</a></li>
-                            <li><a href="{{ route('home') }}#process">Our Stories</a></li>
-                            <li><a href="{{ route('home') }}#intro">About Us</a></li>
+                            <li>
+                                <a href="{{ route('home') }}#intro">About Us</a>
+                                <ul class="nav-mobile-children" aria-label="About Us pages">
+                                    @foreach ($aboutPages as $aboutPage)
+                                        <li><a href="{{ route('pages.show', ['page' => $aboutPage['slug']]) }}">{{ $aboutPage['title'] }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </li>
                             <li><a href="{{ route('home') }}#contact">Contact Us</a></li>
                         </ul>
                     </nav>
