@@ -249,8 +249,8 @@ class HomeController extends Controller
             'contactEmail' => 'info@peakexperience.co.ke',
             'contactPhones' => $contactPhones,
             'socialLinks' => [
-                ['label' => 'TikTok', 'url' => 'https://www.tiktok.com/@peak_audio_systems'],
-                ['label' => 'Instagram', 'url' => 'https://www.instagram.com/peak_audio_systems/'],
+                ['label' => 'TikTok', 'url' => 'https://www.tiktok.com/@peakexperience_ke?_r=1&_t=ZS-98UArt3Rbqn'],
+                ['label' => 'Instagram', 'url' => 'https://www.instagram.com/peakexperience_ke?igsh=MTlxaXBrbnZqeGN4dQ=='],
                 ['label' => 'LinkedIn', 'url' => 'https://www.linkedin.com/company/peak-audio/'],
             ],
             'whatsappPhone' => $whatsappPhone,
